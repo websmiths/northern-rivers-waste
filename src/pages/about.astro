@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import SectionDivider from '../components/SectionDivider.astro';
-import { SITE } from '../site';
+import { SITE, withBase } from '../site';
 
 // Corrections changelog. Append entries here as corrections are published.
 const corrections: { date: string; note: string }[] = [];
@@ -61,6 +61,40 @@ const corrections: { date: string; note: string }[] = [];
           feature, not a submission to the EPA.
         </li>
       </ol>
+
+      <SectionDivider>How we score claims</SectionDivider>
+      <p id="scoring">
+        In the <a href={withBase('/claims')} class="text-water underline"
+          >Claim check</a
+        > breakdowns, each line carries a small scorecard. Every axis rates
+        <strong>the claim and its language &mdash; never the author&rsquo;s
+        honesty, character or intent</strong>. Each score is a judgement we
+        stand behind from the evidence set out in that line, and reasonable
+        people may weigh it differently. The four axes are:
+      </p>
+      <ul>
+        <li>
+          <strong>Accuracy</strong> &mdash; is the statement factually correct?
+          (Accurate / Part-true / Inaccurate)
+        </li>
+        <li>
+          <strong>Relevance</strong> &mdash; does it address the real question,
+          or redirect away from it? (On point / Partial / Misdirection)
+        </li>
+        <li>
+          <strong>Framing</strong> &mdash; is the wording measured, or loaded?
+          (Measured / Leaning / Loaded)
+        </li>
+        <li>
+          <strong>Evidence</strong> &mdash; is the claim backed by evidence?
+          (Backed / Thin / Unbacked)
+        </li>
+      </ul>
+      <p>
+        A &ldquo;Loaded&rdquo; or &ldquo;Misdirection&rdquo; mark is a comment
+        on the wording or the logic, not an allegation about the person who used
+        it &mdash; consistent with our rule against claims of bad faith.
+      </p>
 
       <SectionDivider>Corrections policy</SectionDivider>
       <p>

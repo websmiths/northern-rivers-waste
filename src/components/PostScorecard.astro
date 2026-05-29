@@ -1,0 +1,205 @@
+---
+import { aggregateScores, type Scorecard } from '../data/scorecard';
+import { withBase } from '../site';
+// Aggregate scorecard across all scored claims in a post.
+//   variant="full" — labelled stacked bars (breakdown page).
+//   variant="mini" — tiny coloured chips (index card).
+interface Props {
+  cards: Scorecard[];
+  variant?: 'full' | 'mini';
+}
+const { cards, variant = 'full' } = Astro.props;
+const agg = aggregateScores(cards);
+---
+
+{
+  variant === 'mini' ? (
+    <span class="psm" aria-label="Scorecard summary">
+      {agg.map((a) => (
+        <span class={`psm-chip lv-${a.dominant}`}>
+          <i aria-hidden="true" />
+          {a.axis.label}
+          <b>{a.axis.levels[a.dominant]}</b>
+        </span>
+      ))}
+    </span>
+  ) : (
+    <section class="psc" aria-label="How this post scores">
+      <div class="psc-head">
+        <p class="psc-kicker">How this post scores</p>
+        <p class="psc-note">
+          Across {cards.length} lines. Each axis scores the claim and its
+          language &mdash; never the person.{' '}
+          <a href={withBase('/about#scoring')}>How we score</a>.
+        </p>
+      </div>
+      <div class="psc-rows">
+        {agg.map((a) => (
+          <div class="psc-row">
+            <span class="psc-axis">{a.axis.label}</span>
+            <span class="psc-bar" aria-hidden="true">
+              {a.counts.poor > 0 && (
+                <i class="seg lv-poor" style={`flex:${a.counts.poor}`} />
+              )}
+              {a.counts.mixed > 0 && (
+                <i class="seg lv-mixed" style={`flex:${a.counts.mixed}`} />
+              )}
+              {a.counts.good > 0 && (
+                <i class="seg lv-good" style={`flex:${a.counts.good}`} />
+              )}
+            </span>
+            <span class={`psc-head-val lv-${a.dominant}`}>
+              {a.axis.levels[a.dominant]}
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  /* ---- full ---- */
+  .psc {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 24px 24px;
+    box-shadow: var(--shadow);
+  }
+  .psc-head {
+    margin-bottom: 16px;
+  }
+  .psc-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--brand);
+    margin: 0 0 6px;
+  }
+  .psc-note {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .psc-note a {
+    color: var(--brand);
+  }
+  .psc-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .psc-row {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr) 104px;
+    align-items: center;
+    gap: 14px;
+  }
+  .psc-axis {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .psc-bar {
+    display: flex;
+    gap: 3px;
+    height: 10px;
+  }
+  .psc-bar .seg {
+    flex-basis: 0;
+    border-radius: 3px;
+    min-width: 6px;
+  }
+  .psc-head-val {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    text-align: right;
+  }
+
+  /* shared level colours */
+  .seg.lv-poor {
+    background: var(--accent);
+  }
+  .seg.lv-mixed {
+    background: var(--amber);
+  }
+  .seg.lv-good {
+    background: var(--brand);
+  }
+  .lv-poor.psc-head-val {
+    color: #b23a23;
+  }
+  .lv-mixed.psc-head-val {
+    color: var(--amber-ink);
+  }
+  .lv-good.psc-head-val {
+    color: var(--brand);
+  }
+
+  /* ---- mini (index card) ---- */
+  .psm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 14px;
+  }
+  .psm-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px 3px 7px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+  }
+  .psm-chip i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex: none;
+  }
+  .psm-chip b {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.74rem;
+  }
+  .psm-chip.lv-poor i {
+    background: var(--accent);
+  }
+  .psm-chip.lv-poor b {
+    color: #b23a23;
+  }
+  .psm-chip.lv-mixed i {
+    background: var(--amber);
+  }
+  .psm-chip.lv-mixed b {
+    color: var(--amber-ink);
+  }
+  .psm-chip.lv-good i {
+    background: var(--brand);
+  }
+  .psm-chip.lv-good b {
+    color: var(--brand);
+  }
+
+  @media (max-width: 640px) {
+    .psc-row {
+      grid-template-columns: 80px minmax(0, 1fr) 88px;
+      gap: 10px;
+    }
+  }
+</style>

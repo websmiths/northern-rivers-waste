@@ -25,6 +25,8 @@
   /* data-viz / semantic accents (retuned for the new palette) */
   --water: #1f5d6e; /* slate teal-blue — data series, quotes */
   --alert: #c4452f; /* warm red — only genuinely critical info */
+  --amber: #b7791f; /* scorecard "mixed" level — meters/bars */
+  --amber-ink: #8a5a12; /* scorecard "mixed" level — text on paper (AA) */
 
   /* elevation */
   --shadow: 0 1px 2px rgba(14, 19, 22, 0.04), 0 8px 24px -12px rgba(14, 19, 22, 0.18);

@@ -1,5 +1,7 @@
 ---
 import { withBase } from '../site';
+import ClaimScores from './ClaimScores.astro';
+import type { Scorecard } from '../data/scorecard';
 // One line-by-line item in a post breakdown: the quoted passage on the left,
 // the response on the right (verdict pill + body slot + optional detail link).
 interface Props {
@@ -13,8 +15,10 @@ interface Props {
   tone?: 'spin' | 'fair' | 'unsupported';
   /** Optional link out to the page that does the detailed work. */
   link?: { href: string; label: string };
+  /** Optional per-claim scorecard. */
+  scores?: Scorecard;
 }
-const { n, quote, verdict, tone = 'spin', link } = Astro.props;
+const { n, quote, verdict, tone = 'spin', link, scores } = Astro.props;
 ---
 
 <article class={`reb tone-${tone}`}>
@@ -38,6 +42,7 @@ const { n, quote, verdict, tone = 'spin', link } = Astro.props;
         </a>
       )
     }
+    {scores && <ClaimScores scores={scores} />}
   </div>
 </article>
 

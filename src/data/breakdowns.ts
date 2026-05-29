@@ -3,6 +3,8 @@
 // breakdown — the /claims index and /claims/[slug] pages pick it up
 // automatically. Newest `date` sorts first.
 
+import type { Scorecard } from './scorecard';
+
 export interface RebuttalItem {
   /** Two-digit ordinal, e.g. "01". */
   n: string;
@@ -16,6 +18,8 @@ export interface RebuttalItem {
   link?: { href: string; label: string };
   /** Response body as trusted HTML (may use <strong>, <em>, &mdash; etc.). */
   body: string;
+  /** Per-claim scorecard — scores the claim/language, never the author. */
+  scores?: Scorecard;
 }
 
 export interface Breakdown {
@@ -118,6 +122,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/claims/krieg-mega-tip', label: 'Our read of the same image' },
         body:
           'This holds, and we reached the same conclusion independently. The attached graphic is the imported US <strong>“Anatomy of a Landfill and Resource Recovery Facility”</strong> promo — it shows none of Blakebrook’s geology, catchment or design. An accurate point is accurate whoever makes it.',
+        scores: { accuracy: 'good', relevance: 'good', framing: 'good', evidence: 'good' },
       },
       {
         n: '02',
@@ -127,6 +132,7 @@ export const breakdowns: Breakdown[] = [
           'Misinformation is currently being circulated by some councillors using a generic American landfill infographic…',
         body:
           'The image misled — that part is sound. But “misinformation… being circulated” implies <em>deliberate</em> deception by colleagues, which isn’t established. A borrowed graphic can mislead without anyone intending it to. We hold this post to the same rule we held the mayor’s: weigh the framing, not the person.',
+        scores: { accuracy: 'mixed', relevance: 'good', framing: 'poor', evidence: 'mixed' },
       },
       {
         n: '03',
@@ -137,6 +143,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/proposal', label: 'What’s actually proposed' },
         body:
           'Consistent with what’s public: no Blakebrook design has been published, so the infographic’s gas-to-energy and composting systems are not a committed plan. The first-hand claim (“having been privy to this process”) we can’t independently verify, but the underlying point — no published design — checks out.',
+        scores: { accuracy: 'good', relevance: 'good', framing: 'good', evidence: 'mixed' },
       },
       {
         n: '04',
@@ -147,6 +154,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/numbers', label: 'How liner life depends on heat' },
         body:
           'This is the balanced version of the mayor’s “strictest in the country.” Standards lower risk; they do not guarantee a given site is suitable. Local conditions — rainfall, catchment, water table — still decide. Said plainly and fairly.',
+        scores: { accuracy: 'good', relevance: 'good', framing: 'good', evidence: 'good' },
       },
       {
         n: '05',
@@ -157,6 +165,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/numbers', label: 'The numbers behind the concerns' },
         body:
           'These are the substantive questions, not hype — rainfall and catchment, water, traffic, scale, social licence. On the public record they are not yet resolved by published studies, so “unresolved” is fair.',
+        scores: { accuracy: 'good', relevance: 'good', framing: 'good', evidence: 'mixed' },
       },
       {
         n: '06',
@@ -167,6 +176,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/critique', label: 'On process and framing' },
         body:
           'The transparency concern is shared and reasonable. But “railroaded toward an <em>inappropriate</em> site” pre-judges the very question the studies are meant to answer — the mirror image of branding community concern “hype.” The process complaint stands on its own without the foregone conclusion.',
+        scores: { accuracy: 'mixed', relevance: 'good', framing: 'poor', evidence: 'mixed' },
       },
       {
         n: '07',
@@ -176,6 +186,7 @@ export const breakdowns: Breakdown[] = [
           'I do not support spending a further $1.3 million investigating a proposal that already lacks broad community support…',
         body:
           'Her opposition is a clearly stated position, and fairly labelled as one. The <strong>$1.3 million</strong> figure, though, is a specific, checkable claim about council spending; we have not seen it sourced publicly and flag it as needing a citation before it is treated as settled fact.',
+        scores: { accuracy: 'mixed', relevance: 'good', framing: 'mixed', evidence: 'poor' },
       },
     ],
   },
@@ -230,6 +241,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/numbers', label: 'See the tonnage comparison' },
         body:
           'Tonnage is not the test of whether a site is safe. A smaller load in a high-rainfall, flood-influenced catchment can carry more risk than a much larger one on a dry, deep-watertable site. Comparing raw tonnes against Sydney landfills tells you nothing about whether <strong>Blakebrook</strong> is suitable — it just makes the number sound small.',
+        scores: { accuracy: 'good', relevance: 'poor', framing: 'mixed', evidence: 'mixed' },
       },
       {
         n: '02',
@@ -240,6 +252,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/numbers', label: 'How liner life depends on heat' },
         body:
           'Strict rules lower risk; they do not zero it. Engineered liners have a service life that shortens as temperature rises, and protection depends on decades of monitoring, maintenance and enforcement. “Strictest in the country” is an assurance, not a guarantee that this site, built and maintained over fifty years, will not fail.',
+        scores: { accuracy: 'mixed', relevance: 'mixed', framing: 'mixed', evidence: 'poor' },
       },
       {
         n: '03',
@@ -250,6 +263,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/critique', label: 'On process and framing' },
         body:
           'Questioning a site — and asking whether public money should be spent investigating it — is part of due process, not a closed mind. This framing casts scrutiny as irresponsibility. People can support good waste decisions <em>and</em> doubt that this particular quarry is the right place, without being accused of obstruction.',
+        scores: { accuracy: 'mixed', relevance: 'poor', framing: 'poor', evidence: 'poor' },
       },
       {
         n: '04',
@@ -260,6 +274,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/proposal', label: "What's actually proposed" },
         body:
           'This part is fair. Traffic, environmental and feasibility studies <em>should</em> precede any decision, and saying so is responsible. The live community concern is the reverse risk — that a site is effectively chosen, and the public brought along, before genuine consultation has happened.',
+        scores: { accuracy: 'good', relevance: 'good', framing: 'good', evidence: 'good' },
       },
       {
         n: '05',
@@ -270,6 +285,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/numbers', label: 'The real truck math' },
         body:
           'You cannot label the community’s concerns “hype” in one breath and claim an open mind in the next. On the trucks specifically, the honest figure is neither 400 nor zero — roughly 30–50 movements a day, a real local change worth assessing. Waterway risk in a high-rainfall catchment is a legitimate question, not hype.',
+        scores: { accuracy: 'mixed', relevance: 'mixed', framing: 'poor', evidence: 'mixed' },
       },
       {
         n: '06',
@@ -280,6 +296,7 @@ export const breakdowns: Breakdown[] = [
         link: { href: '/proposal', label: 'What we actually know' },
         body:
           'The attached image is a generic, out-of-region promotional infographic — not a plan for Blakebrook. Showing a polished picture of an idealised facility implies the engineering is decided and the risks handled. They are not: no Blakebrook design exists yet. A picture is standing in for a plan that hasn’t been made.',
+        scores: { accuracy: 'poor', relevance: 'poor', framing: 'mixed', evidence: 'poor' },
       },
     ],
   },

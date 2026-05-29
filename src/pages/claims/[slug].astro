@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
 import PostCard from '../../components/PostCard.astro';
 import Rebuttal from '../../components/Rebuttal.astro';
+import PostScorecard from '../../components/PostScorecard.astro';
 import { withBase } from '../../site';
 import { breakdowns } from '../../data/breakdowns';
 
@@ -16,6 +17,7 @@ const shot = b.post.screenshotFull ?? b.post.screenshotText;
 const shotH = usingFull
   ? (b.post.screenshotFullH ?? 960)
   : (b.post.screenshotTextH ?? 852);
+const scoreCards = b.items.flatMap((i) => (i.scores ? [i.scores] : []));
 ---
 
 <BaseLayout
@@ -82,6 +84,12 @@ const shotH = usingFull
   </section>
 
   <section class="mx-auto max-w-6xl px-5 pt-16 pb-8">
+    {scoreCards.length > 0 && (
+      <div class="post-scorecard">
+        <PostScorecard cards={scoreCards} />
+      </div>
+    )}
+
     <div class="lbl-head">
       <span class="lbl-kicker">Line by line</span>
       <h2 class="lbl-h">{b.breakdownHeading}</h2>
@@ -97,6 +105,7 @@ const shotH = usingFull
             tone={item.tone}
             quote={item.quote}
             link={item.link}
+            scores={item.scores}
           >
             <Fragment set:html={item.body} />
           </Rebuttal>
@@ -167,6 +176,9 @@ const shotH = usingFull
     color: var(--paper);
   }
 
+  .post-scorecard {
+    margin-bottom: 36px;
+  }
   .lbl-head {
     display: flex;
     align-items: center;

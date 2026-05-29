@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Eyebrow from '../../components/Eyebrow.astro';
+import PostScorecard from '../../components/PostScorecard.astro';
 import { withBase } from '../../site';
 import { breakdownsByDate } from '../../data/breakdowns';
 ---
@@ -31,6 +32,7 @@ import { breakdownsByDate } from '../../data/breakdowns';
           const shot = b.post.screenshotText ?? b.post.screenshotFull;
           const fairCount = b.items.filter((i) => i.tone === 'fair').length;
           const flagCount = b.items.length - fairCount;
+          const scoreCards = b.items.flatMap((i) => (i.scores ? [i.scores] : []));
           return (
             <li>
               <a class="cc-card" href={withBase(`/claims/${b.slug}`)}>
@@ -45,6 +47,7 @@ import { breakdownsByDate } from '../../data/breakdowns';
                   </span>
                   <span class="cc-title">{b.title}</span>
                   <span class="cc-sum">{b.summary}</span>
+                  {scoreCards.length > 0 && <PostScorecard cards={scoreCards} variant="mini" />}
                   <span class="cc-tags">
                     <span class="tag tag-flag">{flagCount} flagged</span>
                     {fairCount > 0 && <span class="tag tag-fair">{fairCount} fair</span>}
