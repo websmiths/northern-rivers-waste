@@ -1,0 +1,39 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  /** Display index, e.g. "01". */
+  index?: string;
+}
+const { href, title, summary, index } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group flex flex-col justify-between rounded-lg border border-rule bg-paper p-6 no-underline transition-colors hover:border-ochre focus-visible:border-ochre"
+>
+  <div>
+    {
+      index && (
+        <span class="font-mono text-xs text-ochre-text">{index}</span>
+      )
+    }
+    <h3 class="mt-1 font-display text-2xl font-semibold text-basalt">
+      {title}
+    </h3>
+    <p class="mt-2 font-body text-[0.95rem] leading-relaxed text-ink/80">
+      {summary}
+    </p>
+  </div>
+  <span
+    class="mt-5 inline-flex items-center gap-2 font-mono text-sm text-ochre-text"
+  >
+    Read
+    <span
+      aria-hidden="true"
+      class="transition-transform group-hover:translate-x-1"
+      >→</span
+    >
+  </span>
+</a>

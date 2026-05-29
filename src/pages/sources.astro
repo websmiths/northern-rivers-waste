@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionDivider from '../components/SectionDivider.astro';
+
+// Grouped reference list. Entries with a verified institutional URL link out;
+// local-news and specific-document entries are listed by title/publisher with
+// a "to verify" note until the exact URL is confirmed by the editor.
+const groups = [
+  {
+    heading: 'Regulation and siting',
+    entries: [
+      {
+        title: 'Environmental Guidelines: Solid Waste Landfills',
+        publisher: 'NSW Environment Protection Authority',
+        date: '2016 (2nd ed.)',
+        note: 'Confirm current edition and URL before publish.',
+      },
+      {
+        title: 'Landfill siting, design, operation and rehabilitation guideline',
+        publisher: 'Queensland Government / Department of Environment',
+        note: '100 m buffer from 1% AEP floodplain. Confirm URL.',
+      },
+      {
+        title:
+          'Siting, design, operation and rehabilitation of landfills (Publication 788)',
+        publisher: 'EPA Victoria',
+        note: 'Inundation overlay guidance. Confirm URL.',
+      },
+      {
+        title: 'Flood-prone land and floodplain management — planning provisions',
+        publisher: 'NSW Department of Planning',
+        note: 'Confirm current instrument and URL.',
+      },
+    ],
+  },
+  {
+    heading: 'Engineering',
+    entries: [
+      {
+        title:
+          'R. Kerry Rowe — Geosynthetics and the prevention of contaminant migration (HDPE geomembrane service life vs temperature)',
+        publisher: 'Peer-reviewed geoenvironmental engineering literature',
+        date: '2020',
+        note: 'Service life ~54 years at 60°C to several hundred years at lower temperatures. Confirm exact citation/DOI.',
+      },
+      {
+        title: 'Geomembrane liner seam and CQA failure literature',
+        publisher: 'Peer-reviewed geosynthetics literature',
+        note: 'Multiple sources; compile specific citations.',
+      },
+    ],
+  },
+  {
+    heading: 'Leachate and groundwater science',
+    entries: [
+      {
+        title:
+          'Landfill leachate composition and long-term groundwater contamination studies',
+        publisher: 'Peer-reviewed environmental science literature',
+        note: 'Compile specific citations for heavy metals, ammonia, organics.',
+      },
+    ],
+  },
+  {
+    heading: 'Local context',
+    entries: [
+      {
+        title: 'Lismore City Council — waste, landfill and Blakebrook statements',
+        publisher: 'Lismore City Council',
+        url: 'https://www.lismore.nsw.gov.au/',
+      },
+      {
+        title: 'Blakebrook Quarry landfill investigation coverage',
+        publisher: 'Lismore App',
+        note: 'Confirm article URL(s).',
+      },
+      {
+        title: 'Northern Rivers regional landfill coverage',
+        publisher: 'The Echo',
+        note: 'Confirm article URL(s).',
+      },
+      {
+        title: 'Waste transport to Ipswich; regional landfill reporting',
+        publisher: 'Waste Management Review',
+        note: 'Confirm article URL(s).',
+      },
+      {
+        title: 'Blakebrook basalt quarry operations',
+        publisher: 'Quarry Magazine',
+        note: 'Confirm article URL(s).',
+      },
+      {
+        title: 'Managing waste — Nammoona Landfill',
+        publisher: 'Richmond Valley Council',
+        url: 'https://www.richmondvalley.nsw.gov.au/',
+      },
+      {
+        title: 'Stotts Creek Resource Recovery Centre — Cell C and organics',
+        publisher: 'Tweed Shire Council',
+        url: 'https://www.tweed.nsw.gov.au/',
+      },
+      {
+        title: 'Regional waste data and member councils',
+        publisher: 'North East Waste',
+        note: 'Confirm URL.',
+      },
+      {
+        title: 'North Coast Region Waste Investment Report',
+        publisher: 'NSW Government',
+        date: '2020',
+        note: 'Confirm URL.',
+      },
+      {
+        title: 'NSW Energy from Waste Infrastructure Plan',
+        publisher: 'NSW Government',
+        date: '2021',
+        note: 'Confirm URL.',
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Sources and methodology"
+  description="Full reference list for the Northern Rivers Waste site, grouped by topic, plus a note on method: how claims are sourced and how the reference list is maintained."
+>
+  <PageHeader eyebrow="Sources" title="References and methodology">
+    Every contested claim on this site links to a source. Below is the full
+    list, grouped by topic. We name publications even where the exact URL is
+    still being confirmed, rather than fabricate links.
+  </PageHeader>
+
+  <div class="mx-auto max-w-prose px-5 pb-8">
+    <div class="prose-body mt-10">
+      <p class="font-body text-sm text-ink/70">
+        <strong>Methodology note.</strong> This is a curated, living reference
+        list. Institutional sources (council and government pages) link
+        directly. Specific news articles and documents are listed by title,
+        publisher and date with a note where the precise URL is being verified —
+        we would rather show our working than invent a link. If you spot an
+        error or a better source, the corrections process is on the{' '}
+        <a href="/about">about page</a>.
+      </p>
+    </div>
+
+    {
+      groups.map((group) => (
+        <section>
+          <SectionDivider>{group.heading}</SectionDivider>
+          <ol class="mt-5 space-y-3">
+            {group.entries.map((e) => (
+              <li class="font-body text-[0.95rem] leading-relaxed text-ink/90">
+                {e.url ? (
+                  <a href={e.url} rel="noopener" class="text-water underline">
+                    {e.title}
+                  </a>
+                ) : (
+                  <span class="font-medium text-basalt">{e.title}</span>
+                )}
+                <span class="text-ink/70"> — {e.publisher}</span>
+                {e.date && <span class="text-ink/60">, {e.date}</span>}
+                {e.note && (
+                  <span class="mt-0.5 block font-mono text-xs text-ink/50">
+                    {e.note}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

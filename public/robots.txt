@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://northern-rivers-waste.org/sitemap-index.xml

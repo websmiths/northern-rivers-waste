@@ -1,0 +1,34 @@
+---
+interface Props {
+  /** Optional attribution line shown beneath the quote. */
+  cite?: string;
+}
+const { cite } = Astro.props;
+---
+
+<figure class="full-bleed my-16 bg-basalt py-16 text-paper sm:py-20">
+  <div class="mx-auto max-w-4xl px-6">
+    <div class="mb-6 h-px w-16 bg-ochre"></div>
+    <blockquote
+      class="font-display text-2xl font-medium italic leading-[1.25] text-paper sm:text-[2.1rem]"
+    >
+      <slot />
+    </blockquote>
+    {
+      cite && (
+        <figcaption class="mt-6 font-mono text-sm not-italic text-paper/70">
+          — {cite}
+        </figcaption>
+      )
+    }
+  </div>
+</figure>
+
+<style>
+  /* Full-bleed escape from the centred content column */
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+</style>

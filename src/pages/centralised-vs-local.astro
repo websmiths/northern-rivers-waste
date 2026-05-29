@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionDivider from '../components/SectionDivider.astro';
+import PullQuote from '../components/PullQuote.astro';
+import SourceLink from '../components/SourceLink.astro';
+import SourceList from '../components/SourceList.astro';
+
+const sources = [
+  {
+    title: 'NSW Energy from Waste Infrastructure Plan',
+    publisher: 'NSW Government',
+    date: '2021',
+    note: 'URL to verify before publish.',
+  },
+  {
+    title: 'North Coast Region Waste Investment Report',
+    publisher: 'NSW Government',
+    date: '2020',
+    note: 'URL to verify before publish.',
+  },
+  {
+    title: 'Stotts Creek organics (FOGO) processing facility',
+    publisher: 'Tweed Shire Council',
+    note: 'Largest organics facility in the Northern Rivers. URL to verify before publish.',
+  },
+  {
+    title: 'Victorian ban on organics to landfill',
+    publisher: 'Sustainability Victoria / EPA Victoria',
+    note: 'URL to verify before publish.',
+  },
+];
+---
+
+<BaseLayout
+  title="Centralised vs local: the model question"
+  description="The Blakebrook debate is usually framed as a siting question. The more important question is the model: one big centralised landfill, many small local ones, or a networked, hierarchy-first system that treats landfill as the last resort."
+  progress
+  article
+>
+  <PageHeader
+    eyebrow="The model question"
+    title="One big hole, many small ones, or a different model entirely"
+  >
+    This is the most important page, because it reframes the whole debate. The
+    argument that matters is not <em>where</em> the landfill goes — it is
+    whether a 50-year landfill commitment should be the starting point at all.
+  </PageHeader>
+
+  <article class="mx-auto max-w-prose px-5 pb-8">
+    <div class="prose-body mt-10">
+      <SectionDivider>Model A</SectionDivider>
+      <h2>Centralised — one big regional landfill</h2>
+      <p>This is the Blakebrook-style approach.</p>
+      <p><strong>In its favour:</strong></p>
+      <ul>
+        <li>economies of scale;</li>
+        <li>better engineering becomes affordable;</li>
+        <li>a single regulatory point of accountability;</li>
+        <li>
+          leachate treatment plants and gas-to-energy become economic at scale;
+        </li>
+        <li>lower per-tonne cost.</li>
+      </ul>
+      <p><strong>Against:</strong></p>
+      <ul>
+        <li>concentrated environmental impact on one community;</li>
+        <li>long-haul truck movements from every member council;</li>
+        <li>a single point of failure;</li>
+        <li>a &ldquo;sacrifice zone&rdquo; dynamic;</li>
+        <li>
+          it locks in 50 years of landfilling as the default response to waste.
+        </li>
+      </ul>
+
+      <SectionDivider>Model B</SectionDivider>
+      <h2>Decentralised — each council manages its own</h2>
+      <p><strong>In its favour:</strong></p>
+      <ul>
+        <li>local accountability — each community sees its own waste;</li>
+        <li>shorter transport distances;</li>
+        <li>resilience through redundancy;</li>
+        <li>a built-in incentive to reduce.</li>
+      </ul>
+      <p><strong>Against:</strong></p>
+      <ul>
+        <li>smaller facilities can&rsquo;t afford the best engineering;</li>
+        <li>more total land sterilised;</li>
+        <li>duplicated infrastructure;</li>
+        <li>harder to fund monitoring and staff.</li>
+      </ul>
+
+      <SectionDivider>Model C</SectionDivider>
+      <h2>Networked + hierarchy-first — the model nobody&rsquo;s quite proposing</h2>
+      <p>
+        Modern best practice treats landfill as the <strong>last</strong>{' '}
+        component of a waste system, not the first. The hierarchy runs:
+      </p>
+      <ol>
+        <li>
+          <strong>Avoid and reduce</strong> — container deposit scheme
+          expansion, product stewardship, single-use plastics policy.
+        </li>
+        <li>
+          <strong>Recover at source</strong> — three-bin kerbside is universal
+          in the Northern Rivers, but FOGO (food and garden organics) recovery
+          rates vary from roughly 30% to 70% by LGA. Closing that gap alone
+          delays any need for new landfill capacity.
+        </li>
+        <li>
+          <strong>Process regionally</strong> — large-scale FOGO composting
+          (Stotts Creek&rsquo;s organics facility is the largest in the Northern
+          Rivers),<SourceLink n={3} /> construction-and-demolition recycling,
+          and materials recovery. These <em>can</em> be centralised, because
+          their outputs are products, not pollutants.
+        </li>
+        <li>
+          <strong>Residual treatment</strong> — energy-from-waste is on the
+          table under the NSW Energy from Waste Infrastructure Plan 2021<SourceLink
+            n={1}
+          /> and the North Coast Region Waste Investment Report 2020.<SourceLink
+            n={2}
+          /> It is controversial, but a legitimate part of the conversation.
+        </li>
+        <li>
+          <strong>Residual landfill</strong> — only after all of the above, at
+          minimum scale, distributed across existing licensed sites.
+        </li>
+      </ol>
+    </div>
+
+    <PullQuote>
+      A 50-year landfill commitment today assumes 2075 looks like 2025.
+      Mandatory product stewardship, expanded container deposits,
+      energy-from-waste, advanced sorting, and bans on organics-to-landfill
+      (already happening in Victoria) could halve residual waste within a
+      decade. Building for 50 years of 2020s-volume residual waste is
+      over-building.
+    </PullQuote>
+
+    <div class="prose-body">
+      <p>
+        None of this means &ldquo;do nothing.&rdquo; It means the order of
+        operations matters: decide how much residual waste you will actually
+        have in 2040 <em>before</em> committing to a facility sized for the
+        waste of 2025.<SourceLink n={4} />
+      </p>
+    </div>
+
+    <SourceList sources={sources} />
+  </article>
+</BaseLayout>

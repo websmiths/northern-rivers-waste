@@ -1,0 +1,58 @@
+---
+// Chart 3 — cumulative deposit over 50 years. Band between a lower assumption
+// (~1.8 Mt, averaging ~36 kt/yr) and an upper assumption (~3.0 Mt, a flat
+// 60 kt/yr). Area chart.
+const W = 720, H = 360;
+const padL = 56, padR = 20, padT = 24, padB = 48;
+const plotW = W - padL - padR;
+const plotH = H - padT - padB;
+const years = 50;
+const maxT = 3_000_000;
+const x = (yr: number) => padL + (yr / years) * plotW;
+const y = (t: number) => padT + plotH - (t / maxT) * plotH;
+// build cumulative series
+const hi: [number, number][] = [];
+const lo: [number, number][] = [];
+for (let yr = 0; yr <= years; yr++) {
+  hi.push([yr, yr * 60000]);
+  lo.push([yr, yr * 36000]);
+}
+const line = (pts: [number, number][]) =>
+  pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(p[0]).toFixed(1)} ${y(p[1]).toFixed(1)}`).join(' ');
+const band =
+  line(hi) +
+  ' ' +
+  [...lo].reverse().map((p) => `L ${x(p[0]).toFixed(1)} ${y(p[1]).toFixed(1)}`).join(' ') +
+  ' Z';
+const yTicks = [0, 1_000_000, 2_000_000, 3_000_000];
+const xTicks = [0, 10, 20, 30, 40, 50];
+const fmtT = (t: number) => (t === 0 ? '0' : (t / 1_000_000).toFixed(1) + ' Mt');
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="cd-title cd-desc">
+  <title id="cd-title">Cumulative waste deposited over a 50-year life</title>
+  <desc id="cd-desc">
+    Area chart of cumulative tonnage over 50 years. At a flat 60,000 tonnes a
+    year the total reaches about 3.0 million tonnes; at a lower long-run average
+    of about 36,000 tonnes a year it reaches about 1.8 million tonnes. The
+    shaded band shows the range between these assumptions.
+  </desc>
+
+  {yTicks.map((t) => (
+    <g>
+      <line x1={padL} y1={y(t)} x2={W - padR} y2={y(t)} stroke="var(--rule)"></line>
+      <text x={padL - 8} y={y(t) + 4} text-anchor="end" font-size="11" font-family="'IBM Plex Mono', monospace" fill="var(--ink)" opacity="0.6">{fmtT(t)}</text>
+    </g>
+  ))}
+  {xTicks.map((yr) => (
+    <text x={x(yr)} y={H - padB + 20} text-anchor="middle" font-size="11" font-family="'IBM Plex Mono', monospace" fill="var(--ink)" opacity="0.6">{yr === 0 ? 'yr 0' : yr}</text>
+  ))}
+
+  <path d={band} fill="var(--water)" opacity="0.16"></path>
+  <path d={line(hi)} fill="none" stroke="var(--water)" stroke-width="2.5"></path>
+  <path d={line(lo)} fill="none" stroke="var(--moss)" stroke-width="2.5" stroke-dasharray="6 4"></path>
+
+  <!-- endpoint labels -->
+  <text x={x(50) - 4} y={y(3_000_000) - 8} text-anchor="end" font-size="12.5" font-weight="600" font-family="'IBM Plex Mono', monospace" fill="var(--water)">~3.0 Mt (60 kt/yr)</text>
+  <text x={x(50) - 4} y={y(1_800_000) + 18} text-anchor="end" font-size="12.5" font-weight="600" font-family="'IBM Plex Mono', monospace" fill="var(--moss)">~1.8 Mt (36 kt/yr avg)</text>
+</svg>

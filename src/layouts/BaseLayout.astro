@@ -1,0 +1,208 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Show the sticky reading-progress bar (essay pages). */
+  progress?: boolean;
+  /** Emit Article JSON-LD (essay pages). */
+  article?: boolean;
+  datePublished?: string; // ISO date
+  dateModified?: string; // ISO date
+  /** Per-page OG image path under /og/. Defaults to the route slug. */
+  ogImage?: string;
+}
+
+// Map the current route to its generated OG image (see scripts/gen-og.mjs).
+const ogSlugs = new Set([
+  'proposal',
+  'critique',
+  'alternatives',
+  'centralised-vs-local',
+  'numbers',
+  'sources',
+  'about',
+]);
+const seg = Astro.url.pathname.replace(/\//g, '');
+const derivedOg =
+  Astro.url.pathname === '/'
+    ? '/og/index.png'
+    : ogSlugs.has(seg)
+      ? `/og/${seg}.png`
+      : '/og/default.png';
+
+const {
+  title,
+  description,
+  progress = false,
+  article = false,
+  datePublished = '2026-05-29',
+  dateModified = '2026-05-29',
+  ogImage = derivedOg,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.domain).href;
+const ogUrl = new URL(ogImage, Astro.site ?? SITE.domain).href;
+const fullTitle =
+  Astro.url.pathname === '/' ? title : `${title} — ${SITE.name}`;
+
+const jsonLd = article
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: title,
+      description,
+      datePublished,
+      dateModified,
+      author: { '@type': 'Organization', name: SITE.name },
+      publisher: { '@type': 'Organization', name: SITE.name },
+      mainEntityOfPage: canonical,
+    }
+  : null;
+---
+
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Preload the display font used above the fold -->
+    <link
+      rel="preload"
+      href="/fonts/fraunces-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/plex-sans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    {
+      jsonLd && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(jsonLd)}
+        />
+      )
+    }
+  </head>
+
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    {
+      progress && (
+        <div
+          id="reading-progress"
+          aria-hidden="true"
+          class="fixed left-0 top-0 z-50 h-[2px] w-0 bg-ochre"
+        />
+      )
+    }
+
+    <Nav />
+
+    <main id="main" class="page-enter">
+      <slot />
+    </main>
+
+    <Footer />
+
+    {
+      progress && (
+        <script is:inline>
+          (() => {
+            const bar = document.getElementById('reading-progress');
+            if (!bar) return;
+            let ticking = false;
+            const update = () => {
+              const h =
+                document.documentElement.scrollHeight - window.innerHeight;
+              const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+              bar.style.width = pct + '%';
+              ticking = false;
+            };
+            window.addEventListener(
+              'scroll',
+              () => {
+                if (!ticking) {
+                  window.requestAnimationFrame(update);
+                  ticking = true;
+                }
+              },
+              { passive: true }
+            );
+            update();
+          })();
+        </script>
+      )
+    }
+
+    <style is:global>
+      .skip-link {
+        position: absolute;
+        left: 0.5rem;
+        top: -3rem;
+        z-index: 60;
+        background: var(--basalt);
+        color: var(--paper);
+        padding: 0.5rem 0.9rem;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: top 0.15s ease;
+      }
+      .skip-link:focus {
+        top: 0.5rem;
+      }
+
+      /* Page-level staggered fade-in on load (spec §4) */
+      .page-enter {
+        animation: page-fade 0.5s ease-out both;
+      }
+      @keyframes page-fade {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .page-enter {
+          animation: none;
+        }
+      }
+    </style>
+  </body>
+</html>

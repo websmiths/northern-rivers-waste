@@ -1,0 +1,29 @@
+---
+import Eyebrow from './Eyebrow.astro';
+import Standfirst from './Standfirst.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+}
+const { eyebrow, title } = Astro.props;
+const hasStandfirst = Astro.slots.has('default');
+---
+
+<header class="mx-auto max-w-3xl px-5 pt-14 sm:pt-20">
+  <Eyebrow>{eyebrow}</Eyebrow>
+  <h1
+    class="mt-4 font-display text-4xl font-semibold leading-[1.05] text-basalt sm:text-6xl"
+  >
+    {title}
+  </h1>
+  {
+    hasStandfirst && (
+      <div class="mt-6">
+        <Standfirst>
+          <slot />
+        </Standfirst>
+      </div>
+    )
+  }
+</header>

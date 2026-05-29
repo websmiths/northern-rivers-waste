@@ -1,0 +1,33 @@
+---
+interface Props {
+  /** Visible caption above the figure. */
+  caption: string;
+  /** Source/attribution line shown beneath. */
+  source?: string;
+}
+const { caption, source } = Astro.props;
+---
+
+<figure class="my-12 rounded-lg border border-rule bg-white/40 p-5 sm:p-7">
+  <figcaption class="mb-4 font-body text-sm font-medium text-basalt">
+    {caption}
+  </figcaption>
+  <div class="data-figure-body">
+    <slot />
+  </div>
+  {
+    source && (
+      <p class="mt-4 border-t border-rule pt-3 font-mono text-xs text-ink/60">
+        {source}
+      </p>
+    )
+  }
+</figure>
+
+<style>
+  .data-figure-body :global(svg) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+interface Props {
+  /** Footnote/source number; links to #source-N in the page's source block. */
+  n: number;
+}
+const { n } = Astro.props;
+---
+
+<sup class="source-ref"
+  ><a
+    href={`#source-${n}`}
+    id={`ref-${n}`}
+    aria-label={`Source ${n}`}
+    class="font-mono text-[0.7em] font-medium text-ochre-text no-underline hover:underline"
+    >[{n}]</a
+  ></sup
+>
+
+<style>
+  .source-ref {
+    line-height: 0;
+    vertical-align: super;
+    white-space: nowrap;
+  }
+</style>

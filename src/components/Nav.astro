@@ -1,0 +1,70 @@
+---
+import { SITE, PRIMARY_NAV } from '../site';
+const { pathname } = Astro.url;
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+
+<header class="border-b border-rule bg-paper/95 backdrop-blur sticky top-0 z-40">
+  <nav
+    class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3"
+    aria-label="Primary"
+  >
+    <a
+      href="/"
+      class="font-display text-xl font-semibold text-basalt no-underline tracking-tight"
+    >
+      {SITE.wordmark}
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden items-center gap-6 sm:flex">
+      {
+        PRIMARY_NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={[
+                'font-body text-[0.95rem] no-underline transition-colors hover:text-ochre-text',
+                isActive(item.href)
+                  ? 'text-ochre-text underline decoration-ochre decoration-2 underline-offset-[6px]'
+                  : 'text-ink',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Mobile disclosure (no JS framework — native <details>) -->
+    <details class="relative sm:hidden">
+      <summary
+        class="flex cursor-pointer list-none items-center gap-1.5 rounded border border-rule px-3 py-1.5 font-body text-sm text-ink"
+        aria-label="Open menu"
+      >
+        Menu
+        <span aria-hidden="true" class="text-ochre-text">▾</span>
+      </summary>
+      <ul
+        class="absolute right-0 mt-2 w-48 rounded border border-rule bg-paper py-1 shadow-lg"
+      >
+        {
+          PRIMARY_NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class="block px-4 py-2 font-body text-ink no-underline hover:bg-rule/40"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </details>
+  </nav>
+</header>

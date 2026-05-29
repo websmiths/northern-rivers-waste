@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionDivider from '../components/SectionDivider.astro';
+import { SITE } from '../site';
+
+// Corrections changelog. Append entries here as corrections are published.
+const corrections: { date: string; note: string }[] = [];
+---
+
+<BaseLayout
+  title="About, editorial standards and corrections"
+  description="Who runs the Northern Rivers Waste site, the editorial principles it follows, its corrections policy, and any funding disclosure."
+>
+  <PageHeader eyebrow="About" title="Who runs this, and how we work">
+    This site is independent civic information. It exists so residents and
+    councillors can evaluate the Blakebrook proposal on the merits. Here is who
+    is behind it and the standards it holds itself to.
+  </PageHeader>
+
+  <div class="mx-auto max-w-prose px-5 pb-8">
+    <div class="prose-body mt-10">
+      <SectionDivider>Who runs this site</SectionDivider>
+      <p>
+        Published by <span class="font-mono text-sm">{SITE.author}</span>.
+        {' '}
+        <span class="font-mono text-xs text-ink/50"
+          >(Placeholder — to be completed by the publisher.)</span
+        >
+      </p>
+
+      <SectionDivider>Editorial principles</SectionDivider>
+      <ol>
+        <li>
+          <strong>Cite everything contested.</strong> Every factual claim about
+          regulation, geology, leachate or tonnages carries a source link.
+        </li>
+        <li>
+          <strong>Distinguish opinion from fact.</strong> We use clear voice:
+          &ldquo;the council argues,&rdquo; &ldquo;the evidence suggests,&rdquo;
+          &ldquo;in our view.&rdquo;
+        </li>
+        <li>
+          <strong>No naming private landowners</strong> as alternative sites. We
+          propose by type and characteristic, never by parcel.
+        </li>
+        <li>
+          <strong>No claims of corruption or bad faith.</strong> We critique the
+          process and the framing, not the people.
+        </li>
+        <li>
+          <strong>Acknowledge legitimate counterarguments.</strong> Where the
+          council&rsquo;s reasoning is sound, we say so.
+        </li>
+        <li>
+          <strong>Restraint over emotion.</strong> No emotive imagery of
+          wildlife or flood victims. The argument wins on evidence.
+        </li>
+        <li>
+          <strong>Plain English.</strong> This should read like a long-read
+          feature, not a submission to the EPA.
+        </li>
+      </ol>
+
+      <SectionDivider>Corrections policy</SectionDivider>
+      <p>
+        We aim to be right, and to fix errors fast. If something here is
+        inaccurate, email{' '}
+        <a href={`mailto:${SITE.contactEmail}`} class="text-water underline"
+          >{SITE.contactEmail}</a
+        >. We commit to:
+      </p>
+      <ul>
+        <li>
+          publishing a correction at the bottom of the affected page within
+          <strong>seven days</strong> of confirming it; and
+        </li>
+        <li>logging every correction in the changelog below.</li>
+      </ul>
+
+      <SectionDivider>Corrections changelog</SectionDivider>
+      {
+        corrections.length === 0 ? (
+          <p class="font-mono text-sm text-ink/60">
+            No corrections logged yet.
+          </p>
+        ) : (
+          <ul>
+            {corrections.map((c) => (
+              <li>
+                <span class="font-mono text-sm text-ochre-text">{c.date}</span> —{' '}
+                {c.note}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      <SectionDivider>Funding disclosure</SectionDivider>
+      <p>
+        <span class="font-mono text-sm">{SITE.fundingDisclosure}</span>
+      </p>
+
+      <SectionDivider>Contact</SectionDivider>
+      <p>
+        <a href={`mailto:${SITE.contactEmail}`} class="text-water underline"
+          >{SITE.contactEmail}</a
+        >
+      </p>
+    </div>
+  </div>
+</BaseLayout>

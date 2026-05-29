@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionDivider from '../components/SectionDivider.astro';
+import SourceLink from '../components/SourceLink.astro';
+import SourceList from '../components/SourceList.astro';
+
+const sources = [
+  {
+    title: 'Nammoona Landfill — Cell 6A completion',
+    publisher: 'Richmond Valley Council',
+    url: 'https://www.richmondvalley.nsw.gov.au/',
+    note: 'Managing-waste page. URL to confirm specific cell reference.',
+  },
+  {
+    title: 'Stotts Creek Resource Recovery Centre — Cell C and organics facility',
+    publisher: 'Tweed Shire Council',
+    note: 'URL to verify before publish.',
+  },
+  {
+    title: 'North East Waste — regional waste data and member councils',
+    publisher: 'North East Waste (NE Waste)',
+    note: 'URL to verify before publish.',
+  },
+  {
+    title: 'North Coast Region Waste Investment Report',
+    publisher: 'NSW Government',
+    date: '2020',
+    note: 'URL to verify before publish.',
+  },
+];
+---
+
+<BaseLayout
+  title="Three alternative approaches"
+  description="The real alternatives to a new Blakebrook landfill are not other holes to dig. They are which existing licensed facilities to invest in — Nammoona, Stotts Creek, Grafton — and how to shrink the residual waste stream first."
+  progress
+  article
+>
+  <PageHeader eyebrow="Alternatives" title="Three alternative approaches">
+    The question isn&rsquo;t really &ldquo;where else could we dig a new
+    hole.&rdquo; Three operating regional landfills already exist within
+    trucking distance, and Lismore has been shipping to Ipswich since 2022. The
+    real choice is which existing infrastructure to invest in — and how to
+    reduce the residual stream in the first place.
+  </PageHeader>
+
+  <article class="mx-auto max-w-prose px-5 pb-8">
+    <div class="prose-body mt-10">
+      <SectionDivider>Alternative 1</SectionDivider>
+      <h2>Expand Nammoona (Casino, Richmond Valley)</h2>
+      <p>
+        Nammoona is an existing licensed regional landfill; its Cell 6A was
+        completed in 2024.<SourceLink n={1} /> It sits in the drier inland zone
+        with rail and highway access, co-located with an industrial corridor,
+        and is hydrogeologically less sensitive than the Wilsons River
+        headwaters. A funded regional partnership at Nammoona avoids building a
+        new greenfield site in a rainforest-fringe catchment.
+      </p>
+
+      <SectionDivider>Alternative 2</SectionDivider>
+      <h2>Networked expansion across existing facilities</h2>
+      <p>
+        Tweed has recently invested in Cell C and a major organics processing
+        facility at Stotts Creek.<SourceLink n={2} /> Grafton operates the
+        Clarence Valley regional landfill. Rather than concentrating a
+        seven-council waste stream in one new site, the region could fund staged
+        cell expansions across the <strong>three existing licensed
+        facilities</strong> under a North East Waste regional agreement.<SourceLink
+          n={3}
+        /> Each already has monitoring infrastructure, community familiarity and
+        operating staff. The result: lower capital cost, distributed risk, and
+        no new sacrifice zone.
+      </p>
+
+      <SectionDivider>Alternative 3</SectionDivider>
+      <h2>Properly-sited brownfield co-location</h2>
+      <p>
+        If a genuinely new site is required, the right siting criteria are clear:
+      </p>
+      <ul>
+        <li>above the 1% AEP flood plain;</li>
+        <li>
+          away from sensitive surface waters (100 m minimum, per the Queensland
+          guideline);
+        </li>
+        <li>more than 500 m from sensitive receptors;</li>
+        <li>low-permeability geology with deep groundwater;</li>
+        <li>
+          already-degraded land — closed quarries, cleared agricultural land on
+          stable plateaus;
+        </li>
+        <li>
+          road or rail access that does not route trucks through residential
+          villages.
+        </li>
+      </ul>
+      <p>
+        The Casino&ndash;Lismore industrial corridor contains pockets that meet
+        these criteria. A site-selection process weighted on <strong
+          >environmental risk</strong
+        > — rather than on council land ownership and existing quarry voids —
+        would have started there.
+      </p>
+    </div>
+
+    <div
+      class="mt-12 rounded-lg border-l-2 border-ochre bg-white/40 px-5 py-5 font-body text-[0.95rem] italic leading-relaxed text-ink/85"
+    >
+      <p>
+        We are not nominating private parcels. That is irresponsible advocacy
+        and the council&rsquo;s job, not ours. We are saying that the published
+        site-selection process appears to have weighted land availability over
+        siting criteria, and that several legitimate alternative approaches were
+        not seriously canvassed in public.
+      </p>
+    </div>
+
+    <SourceList sources={sources} />
+  </article>
+</BaseLayout>

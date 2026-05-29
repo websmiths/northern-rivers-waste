@@ -1,0 +1,16 @@
+---
+interface Props {
+  /** Render dark-on-light (default) or light text for dark sections. */
+  light?: boolean;
+}
+const { light = false } = Astro.props;
+---
+
+<p
+  class:list={[
+    'font-mono text-xs font-medium uppercase tracking-[0.18em]',
+    light ? 'text-ochre-bright' : 'text-ochre-text',
+  ]}
+>
+  <slot />
+</p>

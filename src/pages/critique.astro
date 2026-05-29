@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionDivider from '../components/SectionDivider.astro';
+import PullQuote from '../components/PullQuote.astro';
+import SourceLink from '../components/SourceLink.astro';
+import SourceList from '../components/SourceList.astro';
+
+const sources = [
+  {
+    title:
+      'R. Kerry Rowe — long-term performance of geomembrane liners (HDPE service life vs temperature)',
+    publisher: 'Geosynthetics / peer-reviewed engineering literature',
+    date: '2020',
+    note: 'Service-life range ~54 years at 60°C to several hundred years at lower temperatures. Full citation on the sources page.',
+  },
+  {
+    title: 'Queensland landfill siting guideline — floodplain buffer requirements',
+    publisher: 'Queensland Government',
+    note: '100 m buffer from the 1% AEP floodplain; additional engineering required within it. URL to verify before publish.',
+  },
+  {
+    title:
+      'Victoria EPA — siting, design and management of landfills (inundation overlay guidance)',
+    publisher: 'EPA Victoria',
+    note: 'URL to verify before publish.',
+  },
+  {
+    title: 'NSW EPA — Environmental Guidelines: Solid Waste Landfills',
+    publisher: 'NSW Environment Protection Authority',
+    note: 'URL to verify before publish.',
+  },
+  {
+    title: 'Mayor Steve Krieg — public statement on the "mega tip" question',
+    publisher: 'Facebook / Lismore City Council communications',
+    date: 'September 2025',
+  },
+];
+---
+
+<BaseLayout
+  title="What's spin, what's accurate, what's missing"
+  description="A four-part analysis of the public case for the Blakebrook landfill: what is accurate, what is spin, what is misleading by implication, and the major omissions — flood siting, leachate, landfill gas, buffers, post-closure care, and the waste hierarchy."
+  progress
+  article
+>
+  <PageHeader
+    eyebrow="The critique"
+    title="What's spin, what's accurate, what's missing"
+  >
+    The public case for the site has accurate parts, persuasive-but-thin parts,
+    and significant gaps. We separate them so a reader — or a councillor — can
+    tell which is which.
+  </PageHeader>
+
+  <article class="mx-auto max-w-prose px-5 pb-8">
+    <div class="prose-body mt-10">
+      <SectionDivider id="accurate">A — What&rsquo;s accurate</SectionDivider>
+      <p>It is worth starting with what the council gets right:</p>
+      <ul>
+        <li>
+          <strong>The need for some solution is real.</strong> Residual waste
+          has to go somewhere, and the existing cell has limited life left.
+        </li>
+        <li>
+          <strong>Feasibility studies are a legitimate next step.</strong>{' '}
+          Investigating a site before committing to it is the responsible
+          sequence, not evidence of a predetermined outcome.
+        </li>
+        <li>
+          <strong>NSW landfill regulation is comparatively strict.</strong> The
+          state&rsquo;s solid-waste guidelines do impose real engineering and
+          monitoring obligations.<SourceLink n={4} />
+        </li>
+        <li>
+          <strong>Modern landfill engineering is sophisticated.</strong> A
+          contemporary lined cell with leachate capture is genuinely not
+          &ldquo;a hole in the ground.&rdquo;
+        </li>
+      </ul>
+
+      <SectionDivider id="spin">B — What&rsquo;s spin</SectionDivider>
+      <p>
+        Spin is not lying. It is true-but-steering framing. Four examples:
+      </p>
+      <ul>
+        <li>
+          <strong>The &ldquo;mega tip&rdquo; defusing comparison.</strong> The
+          public case contrasts 60,000 t/yr here with metro landfills taking
+          200,000+ t/yr.<SourceLink n={5} /> But the relevant comparison is not
+          Sydney&rsquo;s tonnage — it is the <strong
+            >receiving environment</strong
+          >. A modest tonnage in a high-rainfall, flood-influenced,
+          surface-water-rich catchment can pose more risk than a larger tonnage
+          on an arid, deep-watertable site. Tonnage alone is the wrong yardstick.
+        </li>
+        <li>
+          <strong>The &ldquo;open mind&rdquo; framing.</strong> Casting critics
+          as having &ldquo;closed their minds&rdquo; positions scrutiny as
+          obstruction. Asking hard siting questions early is not closed-
+          mindedness; it is exactly what the assessment process is for.
+        </li>
+        <li>
+          <strong>The &ldquo;400 trucks is hype&rdquo; dismissal.</strong> The
+          honest number is neither 400 nor zero. We work it through on the{' '}
+          <a href="/numbers">numbers page</a>: roughly 13 inbound loads a day,
+          and perhaps 30&ndash;50 total vehicle movements at the gate once you
+          add outbound trucks, leachate tankers, cover-soil deliveries and
+          staff. That is a meaningful local traffic change — worth assessing
+          honestly rather than dismissing.
+        </li>
+        <li>
+          <strong>Equating strict regulation with zero risk.</strong> Strict
+          rules reduce risk; they do not eliminate it. Regulation sets
+          standards — outcomes still depend on siting, construction quality, and
+          decades of maintenance.
+        </li>
+      </ul>
+
+      <SectionDivider id="misleading"
+        >C — What&rsquo;s inaccurate or misleading by implication</SectionDivider
+      >
+      <ul>
+        <li>
+          <strong>The infographic is a PR diagram, not an engineering spec.</strong
+          > The &ldquo;Anatomy of a Landfill&rdquo; image attached to the
+          public case is a generic United States public-relations graphic. It
+          illustrates the concept of a modern landfill; it is not a design for
+          this site, this geology, or this rainfall.
+        </li>
+        <li>
+          <strong>Liner service life depends heavily on conditions.</strong>{' '}
+          HDPE geomembrane service life is strongly temperature- and
+          leachate-chemistry-dependent. Rowe (2020) gives a range from roughly
+          <strong>54 years at 60&deg;C</strong> to several hundred years at
+          lower temperatures.<SourceLink n={1} /> &ldquo;The liner protects the
+          groundwater&rdquo; is true only within that envelope.
+        </li>
+        <li>
+          <strong>Seams are the common failure point.</strong> Liners fail most
+          often at welded seams and penetrations, not across intact sheet — which
+          is why construction quality assurance matters as much as the
+          specification.
+        </li>
+        <li>
+          <strong>Liners delay, not eliminate, migration.</strong> Even a
+          perfect liner system slows contaminant transport; it does not make a
+          landfill permanently inert. That is why post-closure monitoring
+          exists.
+        </li>
+      </ul>
+
+      <SectionDivider id="omissions">D — Major omissions</SectionDivider>
+      <p>
+        This is the largest concern. The questions below are standard for any
+        50-year facility, and the public case has not yet answered them:
+      </p>
+      <ul>
+        <li>
+          <strong>Floodplain siting.</strong> Queensland&rsquo;s guideline sets
+          a 100 m buffer from the 1% AEP floodplain, with additional engineering
+          required inside it.<SourceLink n={2} /> Victoria&rsquo;s EPA advises
+          against siting landfills on land under a Land Subject to Inundation
+          Overlay.<SourceLink n={3} /> The 2022 floods damaged the existing
+          Lismore landfill. Siting a 50-year facility in any flood-influenced
+          catchment in this region warrants close scrutiny.
+        </li>
+        <li>
+          <strong>Long-term leachate liability.</strong> Leachate carries heavy
+          metals, ammonia and organic compounds. Aftercare obligations extend
+          30+ years beyond closure — a liability that outlives most council
+          electoral cycles.
+        </li>
+        <li>
+          <strong>Landfill gas.</strong> Methane and trace volatile organic
+          compounds are generated for decades. Real-world capture efficiency is
+          typically <strong>60&ndash;85%</strong>, not 100%.
+        </li>
+        <li>
+          <strong>Air quality, odour and dust.</strong> A typical buffer to
+          sensitive receptors is around 500 m. Where are the nearest dwellings?
+        </li>
+        <li>
+          <strong>Post-closure care.</strong> Who pays for monitoring and
+          maintenance in year 31, year 50, year 75? This is a standard concern
+          and it is unaddressed in the public case.
+        </li>
+        <li>
+          <strong>Construction quality assurance.</strong> Liners work <em
+            >if</em
+          > installed and inspected to specification. CQA failures are a leading
+          cause of containment breaches.
+        </li>
+        <li>
+          <strong>The waste hierarchy.</strong> Site selection assumes the
+          question is &ldquo;where,&rdquo; not &ldquo;how much.&rdquo; We argue
+          the threshold question is volume — see{' '}
+          <a href="/centralised-vs-local">the model question</a>.
+        </li>
+        <li>
+          <strong>Alternatives.</strong> The public case has not seriously
+          canvassed expansion of Nammoona, Stotts Creek, or Grafton. We set
+          these out on the <a href="/alternatives">alternatives page</a>.
+        </li>
+      </ul>
+    </div>
+
+    <PullQuote>
+      Yes, we need a waste solution. Yes, studies are appropriate. But the
+      threshold question is whether this site can clear standard siting criteria
+      around flood risk, hydrogeology and buffers — because if it can&rsquo;t,
+      no amount of engineering makes it the right place.
+    </PullQuote>
+
+    <SourceList sources={sources} />
+  </article>
+</BaseLayout>

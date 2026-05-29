@@ -1,0 +1,68 @@
+---
+// Chart 1 — tonnage compared. Illustrative: receiving-environment sensitivity
+// matters more than absolute tonnage. Firm figures are solid; approximate
+// regional figures are hatched and flagged for editor verification.
+const bars = [
+  { label: 'Blakebrook', sub: 'proposed', value: 60000, kind: 'firm', color: 'var(--ochre)' },
+  { label: 'Wyrallah Rd', sub: 'recent annual · approx', value: 50000, kind: 'approx', color: 'var(--moss)' },
+  { label: 'Stotts Creek', sub: 'approx', value: 100000, kind: 'approx', color: 'var(--moss)' },
+  { label: 'Lucas Heights', sub: 'metro reference', value: 200000, kind: 'firm', color: 'var(--water)' },
+];
+const W = 720, H = 360;
+const padL = 56, padR = 16, padT = 24, padB = 64;
+const max = 220000;
+const plotW = W - padL - padR;
+const plotH = H - padT - padB;
+const bandW = plotW / bars.length;
+const barW = bandW * 0.52;
+const y = (v: number) => padT + plotH - (v / max) * plotH;
+const ticks = [0, 50000, 100000, 150000, 200000];
+const fmt = (v: number) => (v / 1000).toLocaleString() + 'k';
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="tb-title tb-desc">
+  <title id="tb-title">Annual tonnage compared</title>
+  <desc id="tb-desc">
+    Bar chart of approximate annual tonnages: Blakebrook proposed 60,000 tonnes;
+    Wyrallah Road recent annual roughly 50,000 (approximate); Stotts Creek
+    roughly 100,000 (approximate); Lucas Heights metro reference about 200,000.
+    The comparison is illustrative — receiving-environment sensitivity matters
+    more than absolute tonnage.
+  </desc>
+
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="6" height="6" fill="var(--moss)" opacity="0.18"></rect>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="var(--moss)" stroke-width="2.5"></line>
+    </pattern>
+  </defs>
+
+  <!-- gridlines + y labels -->
+  {ticks.map((t) => (
+    <g>
+      <line x1={padL} y1={y(t)} x2={W - padR} y2={y(t)} stroke="var(--rule)" stroke-width="1"></line>
+      <text x={padL - 8} y={y(t) + 4} text-anchor="end" font-size="11" font-family="'IBM Plex Mono', monospace" fill="var(--ink)" opacity="0.6">{fmt(t)}</text>
+    </g>
+  ))}
+
+  <!-- bars -->
+  {bars.map((b, i) => {
+    const cx = padL + bandW * i + bandW / 2;
+    const bx = cx - barW / 2;
+    const by = y(b.value);
+    const bh = padT + plotH - by;
+    return (
+      <g>
+        <rect x={bx} y={by} width={barW} height={bh} fill={b.kind === 'approx' ? 'url(#hatch)' : b.color} rx="2"></rect>
+        {b.kind === 'approx' && (
+          <rect x={bx} y={by} width={barW} height={bh} fill="none" stroke="var(--moss)" stroke-width="1.5" rx="2"></rect>
+        )}
+        <text x={cx} y={by - 8} text-anchor="middle" font-size="13" font-weight="500" font-family="'IBM Plex Mono', monospace" fill="var(--basalt)">{fmt(b.value)}{b.kind === 'approx' ? '*' : ''}</text>
+        <text x={cx} y={H - padB + 22} text-anchor="middle" font-size="13" font-family="'IBM Plex Sans', sans-serif" fill="var(--ink)">{b.label}</text>
+        <text x={cx} y={H - padB + 38} text-anchor="middle" font-size="10.5" font-family="'IBM Plex Mono', monospace" fill="var(--ink)" opacity="0.55">{b.sub}</text>
+      </g>
+    );
+  })}
+
+  <text x={padL} y={H - 6} font-size="10.5" font-family="'IBM Plex Mono', monospace" fill="var(--ink)" opacity="0.5">* approximate — editor to verify regional figures</text>
+</svg>

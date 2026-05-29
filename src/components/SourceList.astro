@@ -1,0 +1,41 @@
+---
+import SectionDivider from './SectionDivider.astro';
+
+interface SourceEntry {
+  title: string;
+  publisher?: string;
+  date?: string;
+  url?: string;
+  note?: string;
+}
+interface Props {
+  sources: SourceEntry[];
+}
+const { sources } = Astro.props;
+---
+
+{
+  sources.length > 0 && (
+    <section class="mx-auto mt-20 max-w-prose px-5" aria-label="Sources for this page">
+      <SectionDivider>Sources</SectionDivider>
+      <ol class="mt-6 space-y-3">
+        {sources.map((s, i) => (
+          <li id={`source-${i + 1}`} class="font-body text-[0.95rem] leading-relaxed text-ink/90">
+            <span class="font-mono text-sm text-ochre-text">[{i + 1}]</span>{' '}
+            {s.url ? (
+              <a href={s.url} rel="noopener" class="text-water underline">
+                {s.title}
+              </a>
+            ) : (
+              <span>{s.title}</span>
+            )}
+            {s.publisher && <span class="text-ink/70"> — {s.publisher}</span>}
+            {s.date && <span class="text-ink/60">, {s.date}</span>}
+            {s.note && <span class="block text-ink/60">{s.note}</span>}{' '}
+            <a href={`#ref-${i + 1}`} class="font-mono text-xs text-ink/50 no-underline hover:text-ochre" aria-label={`Back to reference ${i + 1}`}>↩</a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}

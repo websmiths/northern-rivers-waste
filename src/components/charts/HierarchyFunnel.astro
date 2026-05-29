@@ -1,0 +1,63 @@
+---
+// Chart 4 — the waste hierarchy as a funnel. Everything enters at the top;
+// only residual should reach landfill at the bottom. Two scenarios: current
+// diversion (~60%, so ~40% to landfill) vs target diversion (~90%, ~10%).
+const W = 720, H = 420;
+const cx = W / 2;
+const topY = 60, botY = 300;
+const topHalf = 300; // half-width at top (full waste stream = 100%)
+const botHalf = 60; // neck half-width
+const stages = [
+  { label: 'Avoid & reduce', t: 0.0 },
+  { label: 'Recover at source (FOGO, recycling)', t: 0.28 },
+  { label: 'Process regionally (compost, MRF, C&D)', t: 0.56 },
+  { label: 'Residual treatment (EfW)', t: 0.82 },
+];
+const halfAt = (t: number) => topHalf - (topHalf - botHalf) * t;
+const yAt = (t: number) => topY + (botY - topY) * t;
+// outflows below the neck
+const neckY = botY;
+const fullW = topHalf * 2; // 100% reference
+const current = 0.4; // 40% to landfill today
+const target = 0.1; // 10% to landfill at 90% diversion
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="hf-title hf-desc">
+  <title id="hf-title">The waste hierarchy as a funnel</title>
+  <desc id="hf-desc">
+    A funnel showing the waste hierarchy: avoid and reduce, recover at source,
+    process regionally, residual treatment, and finally residual landfill at the
+    neck. At today's roughly 60% diversion about 40% of the stream reaches
+    landfill; at a 90% diversion target only about 10% does. Closing the
+    diversion gap shrinks the landfill requirement roughly fourfold.
+  </desc>
+
+  <!-- funnel body -->
+  <path
+    d={`M ${cx - topHalf} ${topY} L ${cx + topHalf} ${topY} L ${cx + botHalf} ${botY} L ${cx - botHalf} ${botY} Z`}
+    fill="var(--moss)" opacity="0.14" stroke="var(--moss)" stroke-width="1.5"
+  ></path>
+
+  <!-- stage divider lines + labels -->
+  {stages.map((s) => (
+    <g>
+      <line x1={cx - halfAt(s.t)} y1={yAt(s.t)} x2={cx + halfAt(s.t)} y2={yAt(s.t)} stroke="var(--moss)" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"></line>
+      <text x={cx} y={yAt(s.t) + (s.t === 0 ? -10 : 16)} text-anchor="middle" font-size="12.5" font-family="'IBM Plex Sans', sans-serif" fill="var(--basalt)" font-weight="500">{s.label}</text>
+    </g>
+  ))}
+
+  <text x={cx} y={topY - 22} text-anchor="middle" font-size="13" font-family="'IBM Plex Mono', monospace" fill="var(--ink)" opacity="0.7">100% — total waste in</text>
+
+  <!-- two landfill outflows -->
+  <text x={cx} y={neckY + 28} text-anchor="middle" font-size="12.5" font-family="'IBM Plex Sans', sans-serif" fill="var(--basalt)" font-weight="500">Residual to landfill:</text>
+
+  <!-- current -->
+  <rect x={cx - (fullW * current) / 2} y={neckY + 44} width={fullW * current} height={34} fill="var(--alert)" opacity="0.85" rx="2"></rect>
+  <text x={cx} y={neckY + 66} text-anchor="middle" font-size="13" font-weight="600" font-family="'IBM Plex Mono', monospace" fill="var(--paper)">~40%</text>
+  <text x={cx + (fullW * current) / 2 + 10} y={neckY + 66} font-size="12" font-family="'IBM Plex Sans', sans-serif" fill="var(--ink)">today (~60% diversion)</text>
+
+  <!-- target -->
+  <rect x={cx - (fullW * target) / 2} y={neckY + 92} width={fullW * target} height={34} fill="var(--moss)" rx="2"></rect>
+  <text x={cx} y={neckY + 114} text-anchor="middle" font-size="12" font-weight="600" font-family="'IBM Plex Mono', monospace" fill="var(--paper)">10%</text>
+  <text x={cx + (fullW * target) / 2 + 10} y={neckY + 114} font-size="12" font-family="'IBM Plex Sans', sans-serif" fill="var(--ink)">target (~90% diversion)</text>
+</svg>
