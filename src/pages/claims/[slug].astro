@@ -1,0 +1,203 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import PostCard from '../../components/PostCard.astro';
+import Rebuttal from '../../components/Rebuttal.astro';
+import { withBase } from '../../site';
+import { breakdowns } from '../../data/breakdowns';
+
+export function getStaticPaths() {
+  return breakdowns.map((b) => ({ params: { slug: b.slug }, props: { b } }));
+}
+
+const { b } = Astro.props;
+const shot = b.post.screenshotFull ?? b.post.screenshotText;
+---
+
+<BaseLayout
+  title={b.title}
+  description={b.summary}
+  progress
+  article
+>
+  <header class="mx-auto max-w-5xl px-5 pt-14 sm:pt-20">
+    <a class="back" href={withBase('/claims')}>
+      <span aria-hidden="true">&larr;</span> Claim check
+    </a>
+    <Eyebrow>Reading the case in context</Eyebrow>
+    <h1
+      class="mt-4 max-w-[18ch] font-display text-4xl font-extrabold leading-[1.04] tracking-[-0.02em] text-ink sm:text-6xl"
+    >
+      {b.title}
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft" set:html={b.intro} />
+  </header>
+
+  <section class="mx-auto max-w-6xl px-5 pt-12">
+    <div class="post-grid">
+      {
+        shot && (
+          <figure class="shot">
+            <img
+              src={withBase(shot)}
+              width="470"
+              height={b.post.screenshotFull ? 960 : 852}
+              alt={b.post.screenshotAlt ?? `Screenshot of the post by ${b.post.author}.`}
+              loading="lazy"
+            />
+            <figcaption>The post as published &mdash; {b.post.source}.</figcaption>
+          </figure>
+        )
+      }
+
+      <div class="retype">
+        <PostCard
+          author={b.post.author}
+          role={b.post.role}
+          source={b.post.source}
+          paragraphs={b.post.paragraphs}
+          attachment={b.post.attachment}
+        />
+
+        {
+          b.aside && (
+            <aside class="aside-note">
+              {b.asideTitle && <p class="ano-label">{b.asideTitle}</p>}
+              <p set:html={b.aside} />
+            </aside>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 pt-16 pb-8">
+    <div class="lbl-head">
+      <span class="lbl-kicker">Line by line</span>
+      <h2 class="lbl-h">{b.breakdownHeading}</h2>
+      <div class="lbl-rule" aria-hidden="true"></div>
+    </div>
+
+    <div class="breakdown">
+      {
+        b.items.map((item) => (
+          <Rebuttal
+            n={item.n}
+            verdict={item.verdict}
+            tone={item.tone}
+            quote={item.quote}
+            link={item.link}
+          >
+            <Fragment set:html={item.body} />
+          </Rebuttal>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--brand);
+    text-decoration: none;
+  }
+  .post-grid {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .shot {
+    margin: 0;
+    position: sticky;
+    top: 88px;
+  }
+  .shot img {
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    display: block;
+  }
+  .shot figcaption {
+    margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .aside-note {
+    margin-top: 18px;
+    padding: 18px 20px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 14px;
+  }
+  .aside-note p {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(245, 244, 239, 0.82);
+  }
+  .ano-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--brand-bright);
+    margin-bottom: 8px;
+  }
+  .aside-note :global(em) {
+    font-style: italic;
+    color: var(--paper);
+  }
+
+  .lbl-head {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 4px;
+  }
+  .lbl-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--brand);
+    flex: none;
+  }
+  .lbl-h {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.2rem);
+    flex: none;
+  }
+  .lbl-rule {
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--line);
+  }
+
+  @media (max-width: 860px) {
+    .post-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .shot {
+      position: static;
+      max-width: 420px;
+    }
+    .lbl-head {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .lbl-rule {
+      display: none;
+    }
+  }
+</style>

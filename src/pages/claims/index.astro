@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Eyebrow from '../../components/Eyebrow.astro';
+import { withBase } from '../../site';
+import { breakdownsByDate } from '../../data/breakdowns';
+---
+
+<BaseLayout
+  title="Claim check"
+  description="Public statements making the case for the Blakebrook landfill, read line by line — and weighed against the evidence. New breakdowns added as posts appear."
+>
+  <header class="mx-auto max-w-6xl px-5 pt-14 sm:pt-20">
+    <Eyebrow>Claim check</Eyebrow>
+    <h1
+      class="mt-4 max-w-[20ch] font-display text-4xl font-extrabold leading-[1.04] tracking-[-0.02em] text-ink sm:text-6xl"
+    >
+      The claims, as they're made
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
+      Most of the public case for the Blakebrook landfill arrives as posts and
+      statements. We take them one at a time, reproduce them in full, and read
+      them line by line &mdash; saying so where the reasoning holds, and showing
+      why where it doesn't. New breakdowns are added as posts appear.
+    </p>
+  </header>
+
+  <div class="mx-auto max-w-6xl px-5 pb-8 pt-12">
+    <ul class="cc-list">
+      {
+        breakdownsByDate.map((b) => {
+          const shot = b.post.screenshotText ?? b.post.screenshotFull;
+          const fairCount = b.items.filter((i) => i.tone === 'fair').length;
+          const flagCount = b.items.length - fairCount;
+          return (
+            <li>
+              <a class="cc-card" href={withBase(`/claims/${b.slug}`)}>
+                {shot && (
+                  <span class="cc-shot">
+                    <img src={withBase(shot)} alt="" loading="lazy" width="470" height="852" />
+                  </span>
+                )}
+                <span class="cc-body">
+                  <span class="cc-meta">
+                    {b.dateLabel} &middot; {b.post.author}
+                  </span>
+                  <span class="cc-title">{b.title}</span>
+                  <span class="cc-sum">{b.summary}</span>
+                  <span class="cc-tags">
+                    <span class="tag tag-flag">{flagCount} flagged</span>
+                    {fairCount > 0 && <span class="tag tag-fair">{fairCount} fair</span>}
+                    <span class="cc-go">
+                      Read the breakdown <span aria-hidden="true">&rarr;</span>
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</BaseLayout>
+
+<style>
+  .cc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .cc-card {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: 26px;
+    align-items: center;
+    padding: 22px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+  .cc-card:hover {
+    transform: translateY(-3px);
+  }
+  .cc-shot {
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 470 / 360;
+  }
+  .cc-shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .cc-body {
+    display: block;
+  }
+  .cc-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .cc-title {
+    display: block;
+    margin-top: 6px;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 1.45rem;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .cc-sum {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.98rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .cc-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .tag {
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .tag-flag {
+    background: rgba(255, 93, 62, 0.12);
+    color: #b23a23;
+  }
+  .tag-fair {
+    background: rgba(12, 107, 96, 0.12);
+    color: var(--brand);
+  }
+  .cc-go {
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--brand);
+  }
+
+  @media (max-width: 640px) {
+    .cc-card {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .cc-shot {
+      max-width: 120px;
+      aspect-ratio: 470 / 320;
+    }
+    .cc-go {
+      margin-left: 0;
+      width: 100%;
+      margin-top: 4px;
+    }
+  }
+</style>

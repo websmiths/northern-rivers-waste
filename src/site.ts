@@ -23,7 +23,7 @@ export const SITE = {
 
 // Primary nav (right side).
 export const PRIMARY_NAV = [
-  { href: '/the-post', label: 'The post' },
+  { href: '/claims', label: 'Claim check' },
   { href: '/proposal', label: 'Proposal' },
   { href: '/critique', label: 'Critique' },
   { href: '/alternatives', label: 'Alternatives' },
@@ -33,7 +33,7 @@ export const PRIMARY_NAV = [
 // Full sitemap for the footer.
 export const FOOTER_NAV = [
   { href: '/', label: 'Home' },
-  { href: '/the-post', label: "The mayor's post" },
+  { href: '/claims', label: 'Claim check' },
   { href: '/proposal', label: 'The proposal' },
   { href: '/critique', label: 'The critique' },
   { href: '/alternatives', label: 'Alternatives' },

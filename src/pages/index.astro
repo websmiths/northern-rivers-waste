@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import StatBand from '../components/StatBand.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { SITE, withBase } from '../site';
+import { breakdownsByDate } from '../data/breakdowns';
 
 const stats = [
   { value: '50', unit: 'yr', label: 'Operational commitment' },
@@ -10,28 +11,11 @@ const stats = [
   { value: '7', label: 'Councils potentially served' },
 ];
 
-// The three sharpest lines from the mayor's post — summarised here, answered in
-// full on /the-post.
-const topLines = [
-  {
-    verdict: 'Wrong yardstick',
-    quote: '“60,000 tonnes… whilst metro landfills take over 200,000 tonnes.”',
-    finding:
-      'Tonnage isn’t the test. A smaller load in a high-rainfall catchment can carry more risk than a larger one on a dry site.',
-  },
-  {
-    verdict: 'Can’t have it both ways',
-    quote: '“The hype of 400 truck movements… I am going to keep an open mind.”',
-    finding:
-      'You can’t call the concerns “hype” and claim an open mind in the same post. The honest truck figure is ~30–50 a day — not 400, not zero.',
-  },
-  {
-    verdict: 'Borrowed reassurance',
-    quote: '“The image attached is the technology that is required.”',
-    finding:
-      'It’s a generic American infographic, not a Blakebrook plan. No design for this site exists yet — a picture is standing in for one.',
-  },
-];
+const latest = breakdownsByDate[0];
+const latestShot = latest.post.screenshotText ?? latest.post.screenshotFull;
+const stripHtml = (s: string) => s.replace(/<[^>]+>/g, '');
+// Lead with the flagged lines from the most recent breakdown.
+const highlights = latest.items.filter((i) => i.tone !== 'fair').slice(0, 3);
 
 const deepCards = [
   { k: '01', title: 'The proposal', desc: 'What’s actually being proposed.', href: '/proposal' },
@@ -42,25 +26,24 @@ const deepCards = [
 ---
 
 <BaseLayout
-  title="The case for the tip was made in one Facebook post"
-  description="An evidence-based, line-by-line read of the public case for a 50-year regional landfill at Blakebrook Quarry — starting with the mayor's own Facebook post."
+  title="Blakebrook landfill — checking the claims, line by line"
+  description="An evidence-based look at the proposed 50-year regional landfill at Blakebrook Quarry — reading the public claims as they're made, and weighing each on the evidence."
 >
   <!-- Dark gradient hero -->
   <section class="hero">
     <div class="mx-auto max-w-6xl px-7 hero-inner">
       <p class="eyebrow">A regional landfill at Blakebrook Quarry</p>
       <h1 class="hero-h1">
-        The case for the tip was made in
-        <span class="hl">one Facebook post.</span>
+        Checking the claims, <span class="hl">as they're made.</span>
       </h1>
       <p class="stand">
-        Lismore’s mayor laid out the public case for a 50-year regional landfill
-        at Blakebrook in a single post — open mind, strictest regulations, just
-        doing the research. We read it line by line, and weigh each claim on the
-        evidence.
+        The public case for the &ldquo;mega tip&rdquo; arrives as posts and
+        statements from those proposing it. We take them one at a time,
+        reproduce them in full, and read each line on the evidence &mdash;
+        crediting what holds, showing what doesn&rsquo;t.
       </p>
-      <a class="cta" href={withBase('/the-post')}>
-        Read the breakdown
+      <a class="cta" href={withBase('/claims')}>
+        Read the claim checks
         <span class="arr" aria-hidden="true">&rarr;</span>
       </a>
       <StatBand stats={stats} />
@@ -68,41 +51,43 @@ const deepCards = [
   </section>
 
   <div class="mx-auto max-w-6xl px-7">
-    <!-- The post, featured -->
+    <!-- Latest breakdown, featured -->
     <section class="feature">
-      <a class="feature-shot" href={withBase('/the-post')} aria-label="Read the full breakdown of the post">
-        <img
-          src={withBase('/media/krieg-post-text.jpg')}
-          width="470"
-          height="852"
-          alt="Mayor Steve Krieg's public Facebook post about the proposed regional waste facility."
-          loading="lazy"
-        />
+      <a
+        class="feature-shot"
+        href={withBase(`/claims/${latest.slug}`)}
+        aria-label={`Read the breakdown: ${latest.title}`}
+      >
+        {
+          latestShot && (
+            <img
+              src={withBase(latestShot)}
+              width="470"
+              height="852"
+              alt={latest.post.screenshotAlt ?? ''}
+              loading="lazy"
+            />
+          )
+        }
       </a>
       <div class="feature-body">
-        <p class="feature-kicker">The communication we’re answering</p>
-        <p class="feature-lead">
-          Most of what the public has heard about the “mega tip” traces back to
-          this one post. It’s reasonable in places — studies <em>should</em>
-          come before decisions. But it leans on a misleading tonnage
-          comparison, dismisses real concerns as “hype,” and attaches a borrowed
-          infographic in place of an actual plan.
-        </p>
-        <a class="feature-link" href={withBase('/the-post')}>
+        <p class="feature-kicker">Latest claim check &middot; {latest.dateLabel}</p>
+        <p class="feature-lead">{latest.summary}</p>
+        <a class="feature-link" href={withBase(`/claims/${latest.slug}`)}>
           See it answered line by line
           <span class="arr" aria-hidden="true">&rarr;</span>
         </a>
       </div>
     </section>
 
-    <SectionHeading kicker="The sharpest lines">Three that don’t hold up</SectionHeading>
+    <SectionHeading kicker="From the latest breakdown">Lines that don’t hold up</SectionHeading>
     <div class="lines-grid">
       {
-        topLines.map((l) => (
-          <a class="line" href={withBase('/the-post')}>
+        highlights.map((l) => (
+          <a class="line" href={withBase(`/claims/${latest.slug}`)}>
             <span class="pill">{l.verdict}</span>
-            <p class="line-q">{l.quote}</p>
-            <p class="line-f">{l.finding}</p>
+            <p class="line-q">&ldquo;{l.quote}&rdquo;</p>
+            <p class="line-f">{stripHtml(l.body)}</p>
           </a>
         ))
       }
@@ -202,7 +187,7 @@ const deepCards = [
     line-height: 0.96;
     letter-spacing: -0.025em;
     margin-top: 18px;
-    max-width: 16ch;
+    max-width: 18ch;
     color: #fff;
   }
   .hero-h1 .hl {
@@ -279,10 +264,6 @@ const deepCards = [
     letter-spacing: -0.015em;
     color: var(--ink);
   }
-  .feature-lead em {
-    font-style: italic;
-    color: var(--brand);
-  }
   .feature-link {
     display: inline-flex;
     align-items: center;
@@ -340,12 +321,20 @@ const deepCards = [
     line-height: 1.32;
     letter-spacing: -0.01em;
     color: var(--ink);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .line-f {
     margin-top: 10px;
     font-size: 0.92rem;
     line-height: 1.55;
     color: var(--ink-soft);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .deep-grid {
