@@ -44,8 +44,12 @@ export interface Breakdown {
     attachmentImage?: { src: string; alt: string; caption: string };
     /** Public path to the full screenshot, if shown. */
     screenshotFull?: string;
+    /** Rendered height (px) of the full screenshot at 470px wide. Defaults to 960. */
+    screenshotFullH?: number;
     /** Public path to a text-only crop, if shown. */
     screenshotText?: string;
+    /** Rendered height (px) of the text crop at 470px wide. Defaults to 852. */
+    screenshotTextH?: number;
     /** Alt text for the screenshot. */
     screenshotAlt?: string;
   };
@@ -58,6 +62,123 @@ export interface Breakdown {
 }
 
 export const breakdowns: Breakdown[] = [
+  {
+    slug: 'waters-myth-busting',
+    navTitle: 'Cllr Waters: “Myth busting”',
+    title: 'Breaking down the “myth-busting” post',
+    date: '2025-09-20',
+    dateLabel: 'September 2025',
+    summary:
+      'A councillor’s “myth-busting” post debunks the imported infographic — much of it holds up, but a few claims outrun the evidence. Read line by line.',
+    intro:
+      'Not every claim-check answers the case <em>for</em> the landfill. Lismore councillor Virginia Waters posted a “myth-busting” rebuttal that takes apart the same imported infographic the mayor shared. We read it exactly as we read his — crediting what holds, and flagging where rhetoric or an unsourced figure outruns the evidence.',
+    post: {
+      author: 'Virginia Waters',
+      role: 'Councillor, Lismore City Council',
+      source: 'Public Facebook post, 2025',
+      screenshotFull: '/media/waters-post-full.jpg',
+      screenshotFullH: 877,
+      screenshotText: '/media/waters-post-text.jpg',
+      screenshotTextH: 556,
+      screenshotAlt:
+        'Screenshot of Councillor Virginia Waters’ public Facebook “myth busting” post about the proposed Blakebrook landfill, with the imported American landfill infographic attached.',
+      attachmentImage: {
+        src: '/media/attached-diagram.jpg',
+        alt:
+          'A generic American promotional infographic titled “Anatomy of a Landfill and Resource Recovery Facility,” showing an idealised cutaway with labelled liners, pipes and recovery systems.',
+        caption:
+          'The image attached to this post: the <strong>same</strong> imported American “Anatomy of a Landfill and Resource Recovery Facility” graphic the mayor shared — reproduced here as the thing being debunked, not as a Blakebrook plan.',
+      },
+      paragraphs: [
+        'MYTH BUSTING:',
+        'Misinformation is currently being circulated by some councillors using a generic American landfill infographic as though it reflects what is proposed for Blakebrook Quarry or even Australian standards.',
+        'It does not.',
+        'The image is not a design for Blakebrook, nor is it evidence the site is suitable for a regional landfill facility. It is a polished North American promotional infographic showing an idealised “resource recovery facility” complete with landfill gas conversion, composting systems and engineered infrastructure.',
+        'To my knowledge, and having been privy to this process, no proposal has been presented to councillors or the community confirming this type of gas-to-energy facility or infrastructure for Blakebrook as part of this project.',
+        'Yes, modern landfills in NSW require engineering standards such as liners, leachate collection, groundwater monitoring and gas management. But that does not automatically make every site appropriate or safe.',
+        'The real concerns raised by the community remain unresolved: • high rainfall and catchment impacts • waterways and groundwater risks • traffic and haulage impacts • long-term environmental liabilities • lack of social licence • the scale of a regional facility in our LGA',
+        'The entire process has also been bereft of transparency until now. Many in the community feel we are being railroaded toward an inappropriate site, while legitimate concerns are being minimised or dismissed.',
+        'Using overseas promotional graphics to downplay community concerns risks misleading people and undermining informed public debate.',
+        'My position remains clear: I do not support a regional waste facility in our LGA. I do not support the Blakebrook site. And I do not support spending a further $1.3 million investigating a proposal that already lacks broad community support and raises serious environmental concerns.',
+        'We need responsible waste solutions. But responsible leadership also means being honest, transparent and grounded in factual information.',
+        '#DontDumponLismore #recyclereusereduce — Adam Guise (Greens for Lismore), Sue Higginson, Dr Luke Robinson (Greens for Page)',
+      ],
+    },
+    asideTitle: 'The same image, two ways',
+    aside:
+      'This post and the mayor’s both turn on a single picture — the imported “Anatomy of a Landfill” graphic. He offered it as “the technology that is required”; here it is held up as misleading. They cannot both be right, and the evidence favours the second reading: it is an out-of-region promotional image, not a Blakebrook design.',
+    breakdownHeading: 'Where it holds, and where it overreaches',
+    items: [
+      {
+        n: '01',
+        verdict: 'Correct — and it matches our read',
+        tone: 'fair',
+        quote:
+          'The image is not a design for Blakebrook… It is a polished North American promotional infographic showing an idealised “resource recovery facility.”',
+        link: { href: '/claims/krieg-mega-tip', label: 'Our read of the same image' },
+        body:
+          'This holds, and we reached the same conclusion independently. The attached graphic is the imported US <strong>“Anatomy of a Landfill and Resource Recovery Facility”</strong> promo — it shows none of Blakebrook’s geology, catchment or design. An accurate point is accurate whoever makes it.',
+      },
+      {
+        n: '02',
+        verdict: 'Right about the image, unproven on intent',
+        tone: 'unsupported',
+        quote:
+          'Misinformation is currently being circulated by some councillors using a generic American landfill infographic…',
+        body:
+          'The image misled — that part is sound. But “misinformation… being circulated” implies <em>deliberate</em> deception by colleagues, which isn’t established. A borrowed graphic can mislead without anyone intending it to. We hold this post to the same rule we held the mayor’s: weigh the framing, not the person.',
+      },
+      {
+        n: '03',
+        verdict: 'Consistent with the public record',
+        tone: 'fair',
+        quote:
+          'No proposal has been presented to councillors or the community confirming this type of gas-to-energy facility or infrastructure for Blakebrook.',
+        link: { href: '/proposal', label: 'What’s actually proposed' },
+        body:
+          'Consistent with what’s public: no Blakebrook design has been published, so the infographic’s gas-to-energy and composting systems are not a committed plan. The first-hand claim (“having been privy to this process”) we can’t independently verify, but the underlying point — no published design — checks out.',
+      },
+      {
+        n: '04',
+        verdict: 'Fair, and well put',
+        tone: 'fair',
+        quote:
+          'Modern landfills in NSW require engineering standards… But that does not automatically make every site appropriate or safe.',
+        link: { href: '/numbers', label: 'How liner life depends on heat' },
+        body:
+          'This is the balanced version of the mayor’s “strictest in the country.” Standards lower risk; they do not guarantee a given site is suitable. Local conditions — rainfall, catchment, water table — still decide. Said plainly and fairly.',
+      },
+      {
+        n: '05',
+        verdict: 'Legitimate, and largely still open',
+        tone: 'fair',
+        quote:
+          'The real concerns raised by the community remain unresolved: high rainfall and catchment impacts… waterways and groundwater risks… the scale of a regional facility in our LGA.',
+        link: { href: '/numbers', label: 'The numbers behind the concerns' },
+        body:
+          'These are the substantive questions, not hype — rainfall and catchment, water, traffic, scale, social licence. On the public record they are not yet resolved by published studies, so “unresolved” is fair.',
+      },
+      {
+        n: '06',
+        verdict: 'Fair concern, loaded words',
+        tone: 'unsupported',
+        quote:
+          'Many in the community feel we are being railroaded toward an inappropriate site, while legitimate concerns are being minimised or dismissed.',
+        link: { href: '/critique', label: 'On process and framing' },
+        body:
+          'The transparency concern is shared and reasonable. But “railroaded toward an <em>inappropriate</em> site” pre-judges the very question the studies are meant to answer — the mirror image of branding community concern “hype.” The process complaint stands on its own without the foregone conclusion.',
+      },
+      {
+        n: '07',
+        verdict: 'A clear position — and a figure to source',
+        tone: 'unsupported',
+        quote:
+          'I do not support spending a further $1.3 million investigating a proposal that already lacks broad community support…',
+        body:
+          'Her opposition is a clearly stated position, and fairly labelled as one. The <strong>$1.3 million</strong> figure, though, is a specific, checkable claim about council spending; we have not seen it sourced publicly and flag it as needing a citation before it is treated as settled fact.',
+      },
+    ],
+  },
   {
     slug: 'krieg-mega-tip',
     navTitle: "Mayor Krieg: “Is the hype real?”",

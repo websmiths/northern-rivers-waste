@@ -11,7 +11,11 @@ export function getStaticPaths() {
 }
 
 const { b } = Astro.props;
+const usingFull = !!b.post.screenshotFull;
 const shot = b.post.screenshotFull ?? b.post.screenshotText;
+const shotH = usingFull
+  ? (b.post.screenshotFullH ?? 960)
+  : (b.post.screenshotTextH ?? 852);
 ---
 
 <BaseLayout
@@ -41,7 +45,7 @@ const shot = b.post.screenshotFull ?? b.post.screenshotText;
             <img
               src={withBase(shot)}
               width="470"
-              height={b.post.screenshotFull ? 960 : 852}
+              height={shotH}
               alt={b.post.screenshotAlt ?? `Screenshot of the post by ${b.post.author}.`}
               loading="lazy"
             />
