@@ -11,8 +11,11 @@ interface Props {
   paragraphs: string[];
   /** Optional note describing an attached image (which we do not reproduce). */
   attachment?: string;
+  /** Optional attached image, shown as the object of critique with a caption. */
+  attachmentImage?: { src: string; alt: string; caption: string };
 }
-const { author, role, source, paragraphs, attachment } = Astro.props;
+const { author, role, source, paragraphs, attachment, attachmentImage } =
+  Astro.props;
 const initials = author
   .split(' ')
   .map((w) => w[0])
@@ -34,11 +37,22 @@ const initials = author
   </blockquote>
 
   {
-    attachment && (
-      <p class="attach">
-        <span class="clip" aria-hidden="true">&#128206;</span>
-        {attachment}
-      </p>
+    attachmentImage ? (
+      <figure class="attach-img">
+        <p class="attach-label">
+          <span class="clip" aria-hidden="true">&#128206;</span>
+          Attached to the post
+        </p>
+        <img src={attachmentImage.src} alt={attachmentImage.alt} loading="lazy" />
+        <figcaption set:html={attachmentImage.caption} />
+      </figure>
+    ) : (
+      attachment && (
+        <p class="attach">
+          <span class="clip" aria-hidden="true">&#128206;</span>
+          {attachment}
+        </p>
+      )
     )
   }
 
@@ -118,6 +132,38 @@ const initials = author
   }
   .clip {
     margin-right: 6px;
+  }
+  .attach-img {
+    margin: 8px 20px 4px;
+    padding: 12px 14px 14px;
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    background: var(--paper);
+  }
+  .attach-label {
+    margin: 0 0 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .attach-img img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+  }
+  .attach-img figcaption {
+    margin-top: 10px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .attach-img figcaption :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
   }
   .post-src {
     padding: 12px 20px 16px;

@@ -38,8 +38,10 @@ export interface Breakdown {
     source?: string;
     /** Verbatim body, one entry per paragraph. */
     paragraphs: string[];
-    /** Optional note describing an attached image (we do not reproduce it). */
+    /** Optional note describing an attached image (text-only fallback). */
     attachment?: string;
+    /** Optional attached image, shown as the object of critique with a caption. */
+    attachmentImage?: { src: string; alt: string; caption: string };
     /** Public path to the full screenshot, if shown. */
     screenshotFull?: string;
     /** Public path to a text-only crop, if shown. */
@@ -75,7 +77,14 @@ export const breakdowns: Breakdown[] = [
       screenshotAlt:
         "Screenshot of Mayor Steve Krieg's public Facebook post about the proposed regional waste facility.",
       attachment:
-        'Attached to the post: a generic infographic titled “Anatomy of a Landfill and Resource Recovery Facility.” We discuss it below but do not reproduce it.',
+        'Attached to the post: a generic infographic titled “Anatomy of a Landfill and Resource Recovery Facility.” We discuss it below.',
+      attachmentImage: {
+        src: '/media/attached-diagram.jpg',
+        alt:
+          'A generic American promotional infographic titled “Anatomy of a Landfill and Resource Recovery Facility,” showing an idealised cutaway of a landfill with labelled liners, pipes and recovery systems.',
+        caption:
+          'The image attached to the post: a generic, <strong>imported</strong> American “Anatomy of a Landfill <em>and Resource Recovery Facility</em>” promotional graphic. It is not a plan for Blakebrook — not its geology, its catchment or its design — and no Blakebrook design has been published. A polished, out-of-region picture is standing in for engineering that does not yet exist.',
+      },
       paragraphs: [
         'Is the hype around the so called ‘mega tip’ real?',
         'Firstly, what is a mega tip? A regional waste facility in our LGA would take about 60,000 tonnes per year, from four neighbouring councils, if they enter into a partnership, whilst metro landfills take over 200,000 tonnes every year, many of which are in residential areas.',

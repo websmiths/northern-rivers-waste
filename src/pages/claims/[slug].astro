@@ -57,6 +57,12 @@ const shot = b.post.screenshotFull ?? b.post.screenshotText;
           source={b.post.source}
           paragraphs={b.post.paragraphs}
           attachment={b.post.attachment}
+          attachmentImage={
+            b.post.attachmentImage && {
+              ...b.post.attachmentImage,
+              src: withBase(b.post.attachmentImage.src),
+            }
+          }
         />
 
         {
