@@ -1,9 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StatBand from '../components/StatBand.astro';
-import ClaimCard from '../components/ClaimCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import PullQuote from '../components/PullQuote.astro';
 import { SITE, withBase } from '../site';
 
 const stats = [
@@ -12,88 +10,102 @@ const stats = [
   { value: '7', label: 'Councils potentially served' },
 ];
 
-const claims = [
+// The three sharpest lines from the mayor's post — summarised here, answered in
+// full on /the-post.
+const topLines = [
   {
-    index: '01',
-    verdict: 'Reduces, not eliminates',
-    claim: '“Modern engineering eliminates the risk.”',
-    score: 2,
-    finding:
-      'Liners and strict rules lower risk — they don’t zero it. Protection depends on temperature, seam quality, and decades of upkeep.',
-    href: '/critique#misleading',
-  },
-  {
-    index: '02',
     verdict: 'Wrong yardstick',
-    claim: '“60,000 tonnes a year is modest.”',
-    score: 1,
+    quote: '“60,000 tonnes… whilst metro landfills take over 200,000 tonnes.”',
     finding:
-      'Tonnage isn’t the test. A modest load in a high-rainfall, flood-influenced catchment can carry more risk than a larger one on a dry site.',
-    href: '/critique#spin',
+      'Tonnage isn’t the test. A smaller load in a high-rainfall catchment can carry more risk than a larger one on a dry site.',
   },
   {
-    index: '03',
-    verdict: 'Overstated',
-    claim: '“The opposition is just hype.”',
-    score: 2,
+    verdict: 'Can’t have it both ways',
+    quote: '“The hype of 400 truck movements… I am going to keep an open mind.”',
     finding:
-      'Neither 400 trucks nor zero — roughly 30–50 movements a day. A real local change, worth assessing rather than dismissing.',
-    href: '/critique#spin',
+      'You can’t call the concerns “hype” and claim an open mind in the same post. The honest truck figure is ~30–50 a day — not 400, not zero.',
+  },
+  {
+    verdict: 'Borrowed reassurance',
+    quote: '“The image attached is the technology that is required.”',
+    finding:
+      'It’s a generic American infographic, not a Blakebrook plan. No design for this site exists yet — a picture is standing in for one.',
   },
 ];
 
 const deepCards = [
-  {
-    k: '01',
-    title: 'The proposal',
-    desc: 'What’s actually being proposed.',
-    href: '/proposal',
-  },
-  {
-    k: '02',
-    title: 'The critique',
-    desc: 'Accurate, spin, and missing.',
-    href: '/critique',
-  },
-  {
-    k: '03',
-    title: 'Alternatives',
-    desc: 'Three other approaches.',
-    href: '/alternatives',
-  },
-  {
-    k: '04',
-    title: 'The numbers',
-    desc: 'Five data visualisations.',
-    href: '/numbers',
-  },
+  { k: '01', title: 'The proposal', desc: 'What’s actually being proposed.', href: '/proposal' },
+  { k: '02', title: 'The critique', desc: 'Accurate, spin, and missing.', href: '/critique' },
+  { k: '03', title: 'Alternatives', desc: 'Three other approaches.', href: '/alternatives' },
+  { k: '04', title: 'The numbers', desc: 'Five data visualisations.', href: '/numbers' },
 ];
 ---
 
 <BaseLayout
-  title="Before we dig the hole, ask the right question."
-  description="An evidence-based look at the proposed 50-year regional landfill at Blakebrook Quarry: the proposal, the critique, the alternatives, and the numbers."
+  title="The case for the tip was made in one Facebook post"
+  description="An evidence-based, line-by-line read of the public case for a 50-year regional landfill at Blakebrook Quarry — starting with the mayor's own Facebook post."
 >
   <!-- Dark gradient hero -->
   <section class="hero">
     <div class="mx-auto max-w-6xl px-7 hero-inner">
       <p class="eyebrow">A regional landfill at Blakebrook Quarry</p>
       <h1 class="hero-h1">
-        Before we dig the hole, ask the <span class="hl">right question.</span>
+        The case for the tip was made in
+        <span class="hl">one Facebook post.</span>
       </h1>
       <p class="stand">
-        Lismore City Council is investigating Blakebrook Quarry for a 50-year
-        regional landfill serving up to seven Northern Rivers councils. The
-        public case rests on three claims &mdash; we weigh each on the evidence.
+        Lismore’s mayor laid out the public case for a 50-year regional landfill
+        at Blakebrook in a single post — open mind, strictest regulations, just
+        doing the research. We read it line by line, and weigh each claim on the
+        evidence.
       </p>
+      <a class="cta" href={withBase('/the-post')}>
+        Read the breakdown
+        <span class="arr" aria-hidden="true">&rarr;</span>
+      </a>
       <StatBand stats={stats} />
     </div>
   </section>
 
   <div class="mx-auto max-w-6xl px-7">
-    <SectionHeading kicker="The case">Three claims, weighed</SectionHeading>
-    <div class="claims-grid">
-      {claims.map((c) => <ClaimCard {...c} />)}
+    <!-- The post, featured -->
+    <section class="feature">
+      <a class="feature-shot" href={withBase('/the-post')} aria-label="Read the full breakdown of the post">
+        <img
+          src={withBase('/media/krieg-post-text.jpg')}
+          width="470"
+          height="852"
+          alt="Mayor Steve Krieg's public Facebook post about the proposed regional waste facility."
+          loading="lazy"
+        />
+      </a>
+      <div class="feature-body">
+        <p class="feature-kicker">The communication we’re answering</p>
+        <p class="feature-lead">
+          Most of what the public has heard about the “mega tip” traces back to
+          this one post. It’s reasonable in places — studies <em>should</em>
+          come before decisions. But it leans on a misleading tonnage
+          comparison, dismisses real concerns as “hype,” and attaches a borrowed
+          infographic in place of an actual plan.
+        </p>
+        <a class="feature-link" href={withBase('/the-post')}>
+          See it answered line by line
+          <span class="arr" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <SectionHeading kicker="The sharpest lines">Three that don’t hold up</SectionHeading>
+    <div class="lines-grid">
+      {
+        topLines.map((l) => (
+          <a class="line" href={withBase('/the-post')}>
+            <span class="pill">{l.verdict}</span>
+            <p class="line-q">{l.quote}</p>
+            <p class="line-f">{l.finding}</p>
+          </a>
+        ))
+      }
     </div>
 
     <SectionHeading kicker="Read on">Go deeper</SectionHeading>
@@ -115,14 +127,8 @@ const deepCards = [
     </div>
   </div>
 
-  <!-- What the council has said -->
-  <PullQuote cite="Mayor Steve Krieg, Lismore City Council, September 2025">
-    No decision has been made to build a landfill at Blakebrook. At this point,
-    we&rsquo;re simply investigating whether the site is suitable.
-  </PullQuote>
-
   <!-- Editorial position -->
-  <section class="mx-auto max-w-prose px-7 pb-4">
+  <section class="mx-auto max-w-prose px-7 pb-4 pt-4">
     <SectionHeading kicker="How we approach this" as="h2">
       Independent, not a campaign
     </SectionHeading>
@@ -196,7 +202,7 @@ const deepCards = [
     line-height: 0.96;
     letter-spacing: -0.025em;
     margin-top: 18px;
-    max-width: 15ch;
+    max-width: 16ch;
     color: #fff;
   }
   .hero-h1 .hl {
@@ -204,16 +210,144 @@ const deepCards = [
   }
   .stand {
     margin-top: 24px;
-    max-width: 54ch;
+    max-width: 56ch;
     font-size: 1.12rem;
     color: #c5cdd2;
   }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 26px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: var(--brand-bright);
+    color: var(--ink);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: transform 0.18s ease;
+  }
+  .cta .arr {
+    transition: transform 0.18s ease;
+  }
+  .cta:hover {
+    transform: translateY(-2px);
+  }
+  .cta:hover .arr {
+    transform: translateX(4px);
+  }
 
-  .claims-grid {
+  .feature {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 44px;
+    align-items: center;
+    padding: 56px 0 16px;
+  }
+  .feature-shot {
+    display: block;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.2s ease;
+  }
+  .feature-shot:hover {
+    transform: translateY(-4px);
+  }
+  .feature-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+  .feature-kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--brand);
+    margin-bottom: 14px;
+  }
+  .feature-lead {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.3rem, 1.05rem + 1vw, 1.7rem);
+    line-height: 1.32;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .feature-lead em {
+    font-style: italic;
+    color: var(--brand);
+  }
+  .feature-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--brand);
+    text-decoration: none;
+  }
+  .feature-link .arr {
+    color: var(--accent);
+    transition: transform 0.18s ease;
+  }
+  .feature-link:hover .arr {
+    transform: translateX(4px);
+  }
+
+  .lines-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 18px;
   }
+  .line {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 22px 24px;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease;
+  }
+  .line:hover {
+    transform: translateY(-4px);
+  }
+  .pill {
+    display: inline-block;
+    padding: 4px 11px;
+    border-radius: 999px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    background: rgba(255, 93, 62, 0.12);
+    color: #b23a23;
+  }
+  .line-q {
+    margin-top: 14px;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.32;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .line-f {
+    margin-top: 10px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
   .deep-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -262,7 +396,15 @@ const deepCards = [
   }
 
   @media (max-width: 880px) {
-    .claims-grid,
+    .feature {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding-top: 40px;
+    }
+    .feature-shot {
+      max-width: 300px;
+    }
+    .lines-grid,
     .deep-grid {
       grid-template-columns: 1fr;
     }

@@ -1,0 +1,129 @@
+---
+// A re-typeset, verbatim reproduction of a public social-media post, shown so a
+// critique can be read in the context of the actual communication it answers.
+// Avoids republishing personal profile photos or third-party attached imagery.
+interface Props {
+  author: string;
+  role?: string;
+  /** Where/when it was posted, e.g. "Public Facebook post · Sep 2025". */
+  source?: string;
+  /** The post body, verbatim, one entry per paragraph. */
+  paragraphs: string[];
+  /** Optional note describing an attached image (which we do not reproduce). */
+  attachment?: string;
+}
+const { author, role, source, paragraphs, attachment } = Astro.props;
+const initials = author
+  .split(' ')
+  .map((w) => w[0])
+  .slice(0, 2)
+  .join('');
+---
+
+<figure class="post">
+  <header class="post-head">
+    <span class="avatar" aria-hidden="true">{initials}</span>
+    <span class="who">
+      <span class="name">{author}</span>
+      {role && <span class="role">{role}</span>}
+    </span>
+  </header>
+
+  <blockquote class="post-body">
+    {paragraphs.map((p) => <p>{p}</p>)}
+  </blockquote>
+
+  {
+    attachment && (
+      <p class="attach">
+        <span class="clip" aria-hidden="true">&#128206;</span>
+        {attachment}
+      </p>
+    )
+  }
+
+  {
+    source && (
+      <figcaption class="post-src">
+        Verbatim. {source}.
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .post {
+    margin: 0;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .post-head {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+  .who {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+  .name {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--ink);
+  }
+  .role {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .post-body {
+    margin: 0;
+    padding: 18px 20px 6px;
+    font-size: 1rem;
+    line-height: 1.62;
+    color: var(--ink);
+  }
+  .post-body p + p {
+    margin-top: 0.9em;
+  }
+  .attach {
+    margin: 8px 20px 4px;
+    padding: 12px 14px;
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    background: var(--paper);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+  .clip {
+    margin-right: 6px;
+  }
+  .post-src {
+    padding: 12px 20px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+  }
+</style>

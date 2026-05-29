@@ -21,8 +21,9 @@ export const SITE = {
   fundingDisclosure: 'TODO — funding disclosure (state "none" if applicable)',
 };
 
-// Primary nav (right side) — four links per spec §5.
+// Primary nav (right side).
 export const PRIMARY_NAV = [
+  { href: '/the-post', label: 'The post' },
   { href: '/proposal', label: 'Proposal' },
   { href: '/critique', label: 'Critique' },
   { href: '/alternatives', label: 'Alternatives' },
@@ -32,6 +33,7 @@ export const PRIMARY_NAV = [
 // Full sitemap for the footer.
 export const FOOTER_NAV = [
   { href: '/', label: 'Home' },
+  { href: '/the-post', label: "The mayor's post" },
   { href: '/proposal', label: 'The proposal' },
   { href: '/critique', label: 'The critique' },
   { href: '/alternatives', label: 'Alternatives' },

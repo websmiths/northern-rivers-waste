@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHeader from '../components/PageHeader.astro';
+import Eyebrow from '../components/Eyebrow.astro';
 import DataFigure from '../components/DataFigure.astro';
 import SourceList from '../components/SourceList.astro';
 import TonnageBars from '../components/charts/TonnageBars.astro';
@@ -35,88 +35,137 @@ const sources = [
   progress
   article
 >
-  <PageHeader eyebrow="The numbers" title="Five figures worth doing carefully">
-    Numbers settle some arguments and reframe others. Each figure below shows
-    its working and its source. Where a value is approximate, we say so on the
-    chart rather than imply false precision.
-  </PageHeader>
-
-  <div class="mx-auto max-w-3xl px-5 pb-8">
-    <div class="prose-body mt-10">
-      <h2>1. Tonnage compared to capacity</h2>
-      <p>
-        The public case leans on a tonnage comparison: 60,000 t/yr here versus
-        200,000+ t/yr at metro landfills. The figure below shows that contrast —
-        but the point of the chart is its caption. Tonnage is the wrong
-        yardstick; what matters is the receiving environment.
-      </p>
-    </div>
-    <DataFigure
-      caption="Approximate annual tonnages (illustrative)"
-      source="Blakebrook 60 kt is the proposed figure; Lucas Heights ~200 kt is the metro reference used in the public debate. Regional figures marked * are approximate and to be verified. The comparison is illustrative — a smaller tonnage in a sensitive, high-rainfall catchment can carry more risk than a larger tonnage on an arid, deep-watertable site."
+  <header class="mx-auto max-w-6xl px-5 pt-14 sm:pt-20">
+    <Eyebrow>The numbers</Eyebrow>
+    <h1
+      class="mt-4 max-w-[16ch] font-display text-4xl font-extrabold leading-[1.04] tracking-[-0.02em] text-ink sm:text-6xl"
     >
-      <TonnageBars />
-    </DataFigure>
+      Five figures worth doing carefully
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
+      Numbers settle some arguments and reframe others. Each figure shows its
+      working and its source. Where a value is approximate, we say so on the
+      chart rather than imply false precision.
+    </p>
+  </header>
 
-    <div class="prose-body">
-      <h2>2. The truck math</h2>
-      <p>
-        &ldquo;400 trucks a day&rdquo; is dismissed as hype; the honest answer
-        is neither 400 nor zero. The arithmetic is simple, and so is the
-        conclusion: a real, assessable increase in local traffic.
-      </p>
+  <div class="mx-auto max-w-6xl px-5 pb-8">
+    <div class="fig-row">
+      <div class="fig-text prose-body">
+        <h2>1. Tonnage compared to capacity</h2>
+        <p>
+          The public case leans on a tonnage comparison: 60,000 t/yr here versus
+          200,000+ t/yr at metro landfills. The figure shows that contrast — but
+          the point is its caption. Tonnage is the wrong yardstick; what matters
+          is the receiving environment.
+        </p>
+      </div>
+      <DataFigure
+        caption="Approximate annual tonnages (illustrative)"
+        source="Blakebrook 60 kt is the proposed figure; Lucas Heights ~200 kt is the metro reference used in the public debate. Regional figures marked * are approximate and to be verified. The comparison is illustrative — a smaller tonnage in a sensitive, high-rainfall catchment can carry more risk than a larger tonnage on an arid, deep-watertable site."
+      >
+        <TonnageBars />
+      </DataFigure>
     </div>
-    <DataFigure
-      caption="From annual tonnage to daily gate movements"
-      source="60,000 t ÷ ~250 operating days ÷ ~18 t average payload ≈ 13 inbound loads/day. Adding empty returns, cover-soil, leachate tankers and staff gives ~40 movements/day. Segment values are illustrative, not a traffic study."
-    >
-      <TruckMath />
-    </DataFigure>
 
-    <div class="prose-body">
-      <h2>3. Cumulative deposit over 50 years</h2>
-      <p>
-        A 50-year facility is not a 60,000-tonne decision. It is a one-to-three
-        million tonne decision, accumulating in one location.
-      </p>
+    <div class="fig-row">
+      <div class="fig-text prose-body">
+        <h2>2. The truck math</h2>
+        <p>
+          &ldquo;400 trucks a day&rdquo; is dismissed as hype; the honest answer
+          is neither 400 nor zero. The arithmetic is simple, and so is the
+          conclusion: a real, assessable increase in local traffic.
+        </p>
+      </div>
+      <DataFigure
+        caption="From annual tonnage to daily gate movements"
+        source="60,000 t ÷ ~250 operating days ÷ ~18 t average payload ≈ 13 inbound loads/day. Adding empty returns, cover-soil, leachate tankers and staff gives ~40 movements/day. Segment values are illustrative, not a traffic study."
+      >
+        <TruckMath />
+      </DataFigure>
     </div>
-    <DataFigure
-      caption="Cumulative tonnes deposited, year 0 to year 50"
-      source="Upper line: a flat 60 kt/yr → ~3.0 Mt. Lower dashed line: a long-run average of ~36 kt/yr → ~1.8 Mt. The band is the range implied by different volume-growth assumptions."
-    >
-      <CumulativeDeposit />
-    </DataFigure>
 
-    <div class="prose-body">
-      <h2>4. The waste hierarchy as a funnel</h2>
-      <p>
-        The size of the hole you need depends entirely on how much waste you let
-        reach the bottom of the funnel. Closing the diversion gap is the
-        cheapest capacity you can build.
-      </p>
+    <div class="fig-row">
+      <div class="fig-text prose-body">
+        <h2>3. Cumulative deposit over 50 years</h2>
+        <p>
+          A 50-year facility is not a 60,000-tonne decision. It is a
+          one-to-three million tonne decision, accumulating in one location.
+        </p>
+      </div>
+      <DataFigure
+        caption="Cumulative tonnes deposited, year 0 to year 50"
+        source="Upper line: a flat 60 kt/yr → ~3.0 Mt. Lower dashed line: a long-run average of ~36 kt/yr → ~1.8 Mt. The band is the range implied by different volume-growth assumptions."
+      >
+        <CumulativeDeposit />
+      </DataFigure>
     </div>
-    <DataFigure
-      caption="What reaches landfill under different diversion rates"
-      source="At today's roughly 60% diversion, about 40% of the stream is landfilled. At a 90% target, about 10% is. FOGO recovery rates across Northern Rivers LGAs vary widely, so the gap is real and addressable."
-    >
-      <HierarchyFunnel />
-    </DataFigure>
 
-    <div class="prose-body">
-      <h2>5. Liner service life vs temperature</h2>
-      <p>
-        &ldquo;The liner protects the groundwater&rdquo; is true within an
-        envelope. That envelope is set by temperature and leachate chemistry —
-        and it is steep.
-      </p>
+    <div class="fig-row">
+      <div class="fig-text prose-body">
+        <h2>4. The waste hierarchy as a funnel</h2>
+        <p>
+          The size of the hole you need depends entirely on how much waste you
+          let reach the bottom of the funnel. Closing the diversion gap is the
+          cheapest capacity you can build.
+        </p>
+      </div>
+      <DataFigure
+        caption="What reaches landfill under different diversion rates"
+        source="At today's roughly 60% diversion, about 40% of the stream is landfilled. At a 90% target, about 10% is. FOGO recovery rates across Northern Rivers LGAs vary widely, so the gap is real and addressable."
+      >
+        <HierarchyFunnel />
+      </DataFigure>
     </div>
-    <DataFigure
-      caption="HDPE geomembrane service life falls steeply with temperature"
-      source="Illustrative curve; magnitudes follow the ranges in Rowe (2020) — roughly 54 years at 60°C, rising to several hundred years at lower temperatures. Shaded band is a typical liner operating range."
-    >
-      <LinerLife />
-    </DataFigure>
+
+    <div class="fig-row">
+      <div class="fig-text prose-body">
+        <h2>5. Liner service life vs temperature</h2>
+        <p>
+          &ldquo;The liner protects the groundwater&rdquo; is true within an
+          envelope. That envelope is set by temperature and leachate chemistry —
+          and it is steep.
+        </p>
+      </div>
+      <DataFigure
+        caption="HDPE geomembrane service life falls steeply with temperature"
+        source="Illustrative curve; magnitudes follow the ranges in Rowe (2020) — roughly 54 years at 60°C, rising to several hundred years at lower temperatures. Shaded band is a typical liner operating range."
+      >
+        <LinerLife />
+      </DataFigure>
+    </div>
 
     <SourceList sources={sources} />
   </div>
+
+  <style>
+    .fig-row {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap: 44px;
+      align-items: center;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+    .fig-row:first-of-type {
+      border-top: 0;
+    }
+    .fig-text h2 {
+      margin-top: 0;
+    }
+    .fig-row :global(figure) {
+      margin-top: 24px;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+    @media (max-width: 860px) {
+      .fig-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+      .fig-row :global(figure) {
+        margin-top: 12px;
+      }
+    }
+  </style>
 </BaseLayout>
