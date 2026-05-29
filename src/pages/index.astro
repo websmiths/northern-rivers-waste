@@ -4,7 +4,7 @@ import Eyebrow from '../components/Eyebrow.astro';
 import Standfirst from '../components/Standfirst.astro';
 import CardLink from '../components/CardLink.astro';
 import PullQuote from '../components/PullQuote.astro';
-import { SITE } from '../site';
+import { SITE, withBase } from '../site';
 
 const cards = [
   {
@@ -106,7 +106,7 @@ const cards = [
       </ul>
       <p>
         The full editorial standards and corrections policy are on the{' '}
-        <a href="/about">about page</a>. {SITE.name} is published by{' '}
+        <a href={withBase('/about')}>about page</a>. {SITE.name} is published by{' '}
         <span class="font-mono text-sm">{SITE.author}</span>.
       </p>
     </div>

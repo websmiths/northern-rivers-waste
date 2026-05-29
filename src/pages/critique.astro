@@ -5,6 +5,7 @@ import SectionDivider from '../components/SectionDivider.astro';
 import PullQuote from '../components/PullQuote.astro';
 import SourceLink from '../components/SourceLink.astro';
 import SourceList from '../components/SourceList.astro';
+import { withBase } from '../site';
 
 const sources = [
   {
@@ -103,7 +104,7 @@ const sources = [
         <li>
           <strong>The &ldquo;400 trucks is hype&rdquo; dismissal.</strong> The
           honest number is neither 400 nor zero. We work it through on the{' '}
-          <a href="/numbers">numbers page</a>: roughly 13 inbound loads a day,
+          <a href={withBase('/numbers')}>numbers page</a>: roughly 13 inbound loads a day,
           and perhaps 30&ndash;50 total vehicle movements at the gate once you
           add outbound trucks, leachate tankers, cover-soil deliveries and
           staff. That is a meaningful local traffic change — worth assessing
@@ -195,12 +196,12 @@ const sources = [
           <strong>The waste hierarchy.</strong> Site selection assumes the
           question is &ldquo;where,&rdquo; not &ldquo;how much.&rdquo; We argue
           the threshold question is volume — see{' '}
-          <a href="/centralised-vs-local">the model question</a>.
+          <a href={withBase('/centralised-vs-local')}>the model question</a>.
         </li>
         <li>
           <strong>Alternatives.</strong> The public case has not seriously
           canvassed expansion of Nammoona, Stotts Creek, or Grafton. We set
-          these out on the <a href="/alternatives">alternatives page</a>.
+          these out on the <a href={withBase('/alternatives')}>alternatives page</a>.
         </li>
       </ul>
     </div>

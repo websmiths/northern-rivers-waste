@@ -1,5 +1,5 @@
 ---
-import { SITE, FOOTER_NAV } from '../site';
+import { SITE, FOOTER_NAV, withBase } from '../site';
 // Build-time "last updated" date surfaced in the footer (spec §11).
 const lastUpdated = new Date().toLocaleDateString('en-AU', {
   day: 'numeric',
@@ -34,7 +34,7 @@ const lastUpdated = new Date().toLocaleDateString('en-AU', {
             FOOTER_NAV.map((item) => (
               <li>
                 <a
-                  href={item.href}
+                  href={withBase(item.href)}
                   class="font-body text-[0.95rem] text-paper no-underline hover:text-ochre-bright"
                 >
                   {item.label}

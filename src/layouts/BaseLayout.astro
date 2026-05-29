@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { SITE } from '../site';
+import { SITE, withBase } from '../site';
 
 interface Props {
   title: string;
@@ -27,9 +27,16 @@ const ogSlugs = new Set([
   'sources',
   'about',
 ]);
-const seg = Astro.url.pathname.replace(/\//g, '');
+// Normalise the request path back to a base-free route so OG/slug logic works
+// identically at the domain root and on a project subpath.
+const basePath = import.meta.env.BASE_URL;
+let routePath = Astro.url.pathname;
+if (basePath !== '/' && routePath.startsWith(basePath)) {
+  routePath = '/' + routePath.slice(basePath.length);
+}
+const seg = routePath.replace(/^\/|\/$/g, '');
 const derivedOg =
-  Astro.url.pathname === '/'
+  seg === ''
     ? '/og/index.png'
     : ogSlugs.has(seg)
       ? `/og/${seg}.png`
@@ -45,8 +52,8 @@ const {
   ogImage = derivedOg,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.domain).href;
-const ogUrl = new URL(ogImage, Astro.site ?? SITE.domain).href;
+const canonical = new URL(withBase(routePath), Astro.site ?? SITE.domain).href;
+const ogUrl = new URL(withBase(ogImage), Astro.site ?? SITE.domain).href;
 const fullTitle =
   Astro.url.pathname === '/' ? title : `${title} — ${SITE.name}`;
 
@@ -63,6 +70,18 @@ const jsonLd = article
       mainEntityOfPage: canonical,
     }
   : null;
+
+// @font-face rules are emitted here (not in a plain .css file) so the WOFF2
+// URLs can be base-path-aware via withBase(). Plain CSS url() can't read the
+// configured base, which breaks on a GitHub Pages project subpath.
+const latinRange =
+  'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD';
+const fontFaceCss = `
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:swap;src:url('${withBase('/fonts/fraunces-latin.woff2')}') format('woff2');unicode-range:${latinRange};}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:100 700;font-display:swap;src:url('${withBase('/fonts/plex-sans-latin.woff2')}') format('woff2');unicode-range:${latinRange};}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('${withBase('/fonts/plex-mono-400.woff2')}') format('woff2');unicode-range:${latinRange};}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('${withBase('/fonts/plex-mono-500.woff2')}') format('woff2');unicode-range:${latinRange};}
+`;
 ---
 
 <!doctype html>
@@ -70,23 +89,26 @@ const jsonLd = article
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
+    <!-- Base-path-aware @font-face declarations -->
+    <style is:inline set:html={fontFaceCss}></style>
+
     <!-- Preload the display font used above the fold -->
     <link
       rel="preload"
-      href="/fonts/fraunces-latin.woff2"
+      href={withBase('/fonts/fraunces-latin.woff2')}
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="/fonts/plex-sans-latin.woff2"
+      href={withBase('/fonts/plex-sans-latin.woff2')}
       as="font"
       type="font/woff2"
       crossorigin

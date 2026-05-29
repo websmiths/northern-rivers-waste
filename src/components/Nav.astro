@@ -1,8 +1,10 @@
 ---
-import { SITE, PRIMARY_NAV } from '../site';
+import { SITE, PRIMARY_NAV, withBase } from '../site';
 const { pathname } = Astro.url;
 const isActive = (href: string) =>
-  href === '/' ? pathname === '/' : pathname.startsWith(href);
+  href === '/'
+    ? pathname === withBase('/')
+    : pathname.startsWith(withBase(href));
 ---
 
 <header class="border-b border-rule bg-paper/95 backdrop-blur sticky top-0 z-40">
@@ -11,7 +13,7 @@ const isActive = (href: string) =>
     aria-label="Primary"
   >
     <a
-      href="/"
+      href={withBase('/')}
       class="font-display text-xl font-semibold text-basalt no-underline tracking-tight"
     >
       {SITE.wordmark}
@@ -23,7 +25,7 @@ const isActive = (href: string) =>
         PRIMARY_NAV.map((item) => (
           <li>
             <a
-              href={item.href}
+              href={withBase(item.href)}
               aria-current={isActive(item.href) ? 'page' : undefined}
               class:list={[
                 'font-body text-[0.95rem] no-underline transition-colors hover:text-ochre-text',
@@ -55,7 +57,7 @@ const isActive = (href: string) =>
           PRIMARY_NAV.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={withBase(item.href)}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 class="block px-4 py-2 font-body text-ink no-underline hover:bg-rule/40"
               >

@@ -4,6 +4,7 @@ import PageHeader from '../components/PageHeader.astro';
 import SectionDivider from '../components/SectionDivider.astro';
 import SourceLink from '../components/SourceLink.astro';
 import SourceList from '../components/SourceList.astro';
+import { withBase } from '../site';
 
 const sources = [
   {
@@ -113,7 +114,7 @@ const sources = [
       </p>
       <p>
         We take each of these claims seriously and examine them on the{' '}
-        <a href="/critique">critique page</a>. Several are accurate. The
+        <a href={withBase('/critique')}>critique page</a>. Several are accurate. The
         question this site asks is not whether the council is acting in bad
         faith — we assume it is not — but whether the public case has answered
         the standard siting questions a 50-year facility must clear.

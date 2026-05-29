@@ -1,5 +1,14 @@
 // Central site configuration. Edit placeholders here once values are known.
 
+// Prefix an absolute, site-root path with Astro's configured base path so the
+// same code works at the domain root (base '/') and on a GitHub Pages project
+// subpath (base '/northern-rivers-waste/'). BASE_URL always ends in a slash.
+export function withBase(path: string): string {
+  const base = import.meta.env.BASE_URL;
+  if (path === '/') return base;
+  return base.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`);
+}
+
 export const SITE = {
   name: 'Northern Rivers Waste',
   // Short wordmark shown in the nav (kept compact on mobile).

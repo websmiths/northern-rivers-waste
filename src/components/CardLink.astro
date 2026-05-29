@@ -6,11 +6,12 @@ interface Props {
   /** Display index, e.g. "01". */
   index?: string;
 }
+import { withBase } from '../site';
 const { href, title, summary, index } = Astro.props;
 ---
 
 <a
-  href={href}
+  href={withBase(href)}
   class="group flex flex-col justify-between rounded-lg border border-rule bg-paper p-6 no-underline transition-colors hover:border-ochre focus-visible:border-ochre"
 >
   <div>

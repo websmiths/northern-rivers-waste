@@ -1,9 +1,7 @@
 /* ---------------------------------------------------------------------------
-   Self-hosted fonts (Latin subset, WOFF2). See src/styles/fonts.css.
-   Must precede @tailwind directives.
+   Self-hosted fonts: @font-face rules are emitted from BaseLayout.astro so the
+   WOFF2 URLs can be base-path-aware (see fontFaceCss there).
 --------------------------------------------------------------------------- */
-@import './fonts.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
