@@ -1,0 +1,177 @@
+---
+import { withBase } from '../site';
+
+interface Props {
+  index: string; // "01"
+  verdict: string; // pill label
+  claim: string; // the quoted claim
+  score: number; // 0–5, segments filled
+  finding: string;
+  href: string; // drill-down target
+}
+const { index, verdict, claim, score, finding, href } = Astro.props;
+const segs = Array.from({ length: 5 }, (_, i) => i < score);
+---
+
+<article class="claim">
+  <div class="top">
+    <span class="idx">{index}</span>
+    <span class="pill">{verdict}</span>
+  </div>
+  <p class="ck">The claim</p>
+  <p class="q">{claim}</p>
+  <div class="meter">
+    <div class="bar" aria-hidden="true">
+      {segs.map((on) => <span class:list={['seg', { on }]} />)}
+    </div>
+    <div class="lab">
+      <span class="t">How well it holds up</span>
+      <span class="s">{score} / 5</span>
+    </div>
+  </div>
+  <p class="finding">{finding}</p>
+  <a class="examine" href={withBase(href)}>
+    Examine the evidence <span class="arr" aria-hidden="true">→</span>
+  </a>
+</article>
+
+<style>
+  .claim {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+    transition:
+      transform 0.22s ease,
+      box-shadow 0.22s ease,
+      border-color 0.22s ease;
+  }
+  .claim::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 24px;
+    right: 24px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: var(--brand);
+    transition:
+      left 0.22s,
+      right 0.22s;
+  }
+  .claim:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: #d8d4c8;
+  }
+  .claim:hover::before {
+    left: 0;
+    right: 0;
+  }
+  .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .idx {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 2.4rem;
+    line-height: 0.8;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+  }
+  .pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--brand);
+    background: rgba(12, 107, 96, 0.09);
+    border: 1px solid rgba(12, 107, 96, 0.2);
+    border-radius: 999px;
+    padding: 6px 11px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .ck {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-top: 24px;
+  }
+  .q {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 1.34rem;
+    line-height: 1.12;
+    margin-top: 9px;
+    color: var(--ink);
+  }
+  .meter {
+    margin-top: 20px;
+  }
+  .bar {
+    display: flex;
+    gap: 5px;
+  }
+  .seg {
+    height: 8px;
+    flex: 1;
+    border-radius: 3px;
+    background: #ece9e0;
+  }
+  .seg.on {
+    background: var(--brand);
+  }
+  .lab {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 9px;
+  }
+  .lab .t {
+    font-size: 0.74rem;
+    color: var(--muted);
+  }
+  .lab .s {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--brand);
+  }
+  .finding {
+    margin-top: 16px;
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    flex: 1;
+  }
+  .examine {
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+  .examine .arr {
+    color: var(--accent);
+    transition: transform 0.2s;
+  }
+  .claim:hover .examine .arr {
+    transform: translateX(5px);
+  }
+</style>

@@ -77,8 +77,8 @@ const jsonLd = article
 const latinRange =
   'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD';
 const fontFaceCss = `
-@font-face{font-family:'Fraunces';font-style:normal;font-weight:100 900;font-display:swap;src:url('${withBase('/fonts/fraunces-latin.woff2')}') format('woff2');unicode-range:${latinRange};}
-@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:100 700;font-display:swap;src:url('${withBase('/fonts/plex-sans-latin.woff2')}') format('woff2');unicode-range:${latinRange};}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-display:swap;src:url('${withBase('/fonts/archivo-latin.woff2')}') format('woff2');unicode-range:${latinRange};}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('${withBase('/fonts/inter-latin.woff2')}') format('woff2');unicode-range:${latinRange};}
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('${withBase('/fonts/plex-mono-400.woff2')}') format('woff2');unicode-range:${latinRange};}
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('${withBase('/fonts/plex-mono-500.woff2')}') format('woff2');unicode-range:${latinRange};}
 `;
@@ -98,17 +98,17 @@ const fontFaceCss = `
     <!-- Base-path-aware @font-face declarations -->
     <style is:inline set:html={fontFaceCss}></style>
 
-    <!-- Preload the display font used above the fold -->
+    <!-- Preload the fonts used above the fold -->
     <link
       rel="preload"
-      href={withBase('/fonts/fraunces-latin.woff2')}
+      href={withBase('/fonts/archivo-latin.woff2')}
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href={withBase('/fonts/plex-sans-latin.woff2')}
+      href={withBase('/fonts/inter-latin.woff2')}
       as="font"
       type="font/woff2"
       crossorigin
@@ -146,7 +146,7 @@ const fontFaceCss = `
         <div
           id="reading-progress"
           aria-hidden="true"
-          class="fixed left-0 top-0 z-50 h-[2px] w-0 bg-ochre"
+          class="fixed left-0 top-0 z-50 h-[2px] w-0 bg-brand"
         />
       )
     }
@@ -195,7 +195,7 @@ const fontFaceCss = `
         left: 0.5rem;
         top: -3rem;
         z-index: 60;
-        background: var(--basalt);
+        background: var(--ink);
         color: var(--paper);
         padding: 0.5rem 0.9rem;
         border-radius: 4px;

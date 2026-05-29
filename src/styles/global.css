@@ -7,21 +7,39 @@
 @tailwind utilities;
 
 /* ---------------------------------------------------------------------------
-   Design tokens — Northern Rivers landscape palette (spec §4)
+   Design tokens — "Synthesis" palette: dark ink + warm paper + teal/coral
 --------------------------------------------------------------------------- */
 :root {
-  --ink: #1a1814; /* near-black, warm — body text */
-  --paper: #f6f1e7; /* warm off-white — page background */
-  --basalt: #2d2520; /* deep brown-black — dark sections */
-  --ochre: #b8531a; /* burnt orange — decorative accents, rules, bars */
-  --ochre-text: #9a4214; /* darker ochre — small text/links on light paper (AA) */
-  --ochre-bright: #d9833d; /* lighter ochre — small text/links on dark basalt (AA) */
-  --moss: #4a5d3a; /* deep subtropical green — secondary accent */
-  --water: #2a4d5e; /* deep slate blue — quotes, data viz */
-  --alert: #8a2018; /* dark red — only genuinely critical info */
-  --rule: #d9cfbf; /* warm grey — hairline rules, borders */
+  --ink: #0e1316; /* near-black, slight blue — body text, dark sections */
+  --ink-2: #16212a; /* panel dark — hero gradient mid-stop */
+  --ink-soft: #39434a; /* secondary body text on paper */
+  --paper: #f5f4ef; /* warm off-white — page background */
+  --card: #ffffff; /* card surfaces on paper */
+  --brand: #0c6b60; /* deep teal — links, meters, primary accent (AA on white 6.4:1) */
+  --brand-bright: #2fcdb4; /* bright teal — accents on dark backgrounds */
+  --accent: #ff5d3e; /* coral — sparing pops: headline phrase, drill-down arrows */
+  --muted: #5b646b; /* small labels/captions on paper (AA 5.5:1) */
+  --line: #e4e1d8; /* hairline rules/borders on light */
+  --line-dark: #27343d; /* hairline rules/borders on dark */
+
+  /* data-viz / semantic accents (retuned for the new palette) */
+  --water: #1f5d6e; /* slate teal-blue — data series, quotes */
+  --alert: #c4452f; /* warm red — only genuinely critical info */
+
+  /* elevation */
+  --shadow: 0 1px 2px rgba(14, 19, 22, 0.04), 0 8px 24px -12px rgba(14, 19, 22, 0.18);
+  --shadow-lg: 0 2px 4px rgba(14, 19, 22, 0.05), 0 20px 48px -18px rgba(14, 19, 22, 0.32);
+  --radius: 16px;
 
   --measure: 40rem; /* ~640px reading measure */
+
+  /* Legacy token names aliased to the new palette (consumed by SVG charts
+     via var()). Kept in sync with the Tailwind colour aliases. */
+  --basalt: var(--ink);
+  --ochre: var(--accent);
+  --ochre-text: var(--brand);
+  --moss: var(--brand);
+  --rule: var(--line);
 }
 
 @layer base {
@@ -46,10 +64,10 @@
   body {
     background-color: var(--paper);
     color: var(--ink);
-    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-weight: 400;
     line-height: 1.6;
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -58,29 +76,30 @@
   h2,
   h3,
   h4 {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 600;
-    line-height: 1.1;
-    color: var(--basalt);
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--ink);
     text-wrap: balance;
   }
 
   a {
-    color: var(--ochre-text);
+    color: var(--brand);
     text-underline-offset: 0.15em;
     text-decoration-thickness: 1px;
   }
 
-  /* Visible focus state — 2px ochre ring, 2px offset (spec §8) */
+  /* Visible focus state — 2px teal ring, 2px offset (spec §8; AA non-text 6.4:1) */
   :focus-visible {
-    outline: 2px solid var(--ochre);
+    outline: 2px solid var(--brand);
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 3px;
   }
 
   ::selection {
-    background: var(--ochre);
-    color: var(--paper);
+    background: var(--brand);
+    color: #fff;
   }
 }
 
@@ -132,7 +151,7 @@
     margin-top: 0.4em;
   }
   .prose-body strong {
-    font-weight: 500;
-    color: var(--basalt);
+    font-weight: 600;
+    color: var(--ink);
   }
 }

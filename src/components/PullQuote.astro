@@ -6,11 +6,11 @@ interface Props {
 const { cite } = Astro.props;
 ---
 
-<figure class="full-bleed my-16 bg-basalt py-16 text-paper sm:py-20">
+<figure class="full-bleed my-16 bg-ink py-16 text-paper sm:py-20">
   <div class="mx-auto max-w-4xl px-6">
-    <div class="mb-6 h-px w-16 bg-ochre"></div>
+    <div class="mb-6 h-1 w-12 rounded-full bg-brand-bright"></div>
     <blockquote
-      class="font-display text-2xl font-medium italic leading-[1.25] text-paper sm:text-[2.1rem]"
+      class="font-display text-2xl font-bold leading-[1.18] tracking-[-0.015em] text-paper sm:text-[2.1rem]"
     >
       <slot />
     </blockquote>

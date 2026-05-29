@@ -7,20 +7,29 @@ const isActive = (href: string) =>
     : pathname.startsWith(withBase(href));
 ---
 
-<header class="border-b border-rule bg-paper/95 backdrop-blur sticky top-0 z-40">
+<header
+  class="sticky top-0 z-40 border-b border-line-dark bg-ink/70 backdrop-blur-md"
+>
   <nav
-    class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3"
+    class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-7 py-[15px]"
     aria-label="Primary"
   >
     <a
       href={withBase('/')}
-      class="font-display text-xl font-semibold text-basalt no-underline tracking-tight"
+      class="flex items-center gap-[11px] text-white no-underline"
     >
-      {SITE.wordmark}
+      <span
+        class="h-[11px] w-[11px] rounded-[3px] bg-brand-bright shadow-[0_0_16px_var(--brand-bright)]"
+        aria-hidden="true"></span>
+      <span
+        class="font-display text-base font-extrabold uppercase tracking-[0.02em]"
+      >
+        {SITE.name}
+      </span>
     </a>
 
     <!-- Desktop links -->
-    <ul class="hidden items-center gap-6 sm:flex">
+    <ul class="hidden items-center gap-1 sm:flex">
       {
         PRIMARY_NAV.map((item) => (
           <li>
@@ -28,10 +37,10 @@ const isActive = (href: string) =>
               href={withBase(item.href)}
               aria-current={isActive(item.href) ? 'page' : undefined}
               class:list={[
-                'font-body text-[0.95rem] no-underline transition-colors hover:text-ochre-text',
+                'rounded-lg px-3.5 py-2 font-body text-[0.82rem] font-medium no-underline transition-colors',
                 isActive(item.href)
-                  ? 'text-ochre-text underline decoration-ochre decoration-2 underline-offset-[6px]'
-                  : 'text-ink',
+                  ? 'bg-white/10 text-white'
+                  : 'text-[#aeb8be] hover:bg-white/[0.08] hover:text-white',
               ]}
             >
               {item.label}
@@ -44,14 +53,14 @@ const isActive = (href: string) =>
     <!-- Mobile disclosure (no JS framework — native <details>) -->
     <details class="relative sm:hidden">
       <summary
-        class="flex cursor-pointer list-none items-center gap-1.5 rounded border border-rule px-3 py-1.5 font-body text-sm text-ink"
+        class="flex cursor-pointer list-none items-center gap-1.5 rounded-lg border border-line-dark px-3 py-1.5 font-body text-sm text-[#aeb8be]"
         aria-label="Open menu"
       >
         Menu
-        <span aria-hidden="true" class="text-ochre-text">▾</span>
+        <span aria-hidden="true" class="text-brand-bright">▾</span>
       </summary>
       <ul
-        class="absolute right-0 mt-2 w-48 rounded border border-rule bg-paper py-1 shadow-lg"
+        class="absolute right-0 mt-2 w-48 rounded-lg border border-line-dark bg-ink py-1 shadow-lg"
       >
         {
           PRIMARY_NAV.map((item) => (
@@ -59,7 +68,7 @@ const isActive = (href: string) =>
               <a
                 href={withBase(item.href)}
                 aria-current={isActive(item.href) ? 'page' : undefined}
-                class="block px-4 py-2 font-body text-ink no-underline hover:bg-rule/40"
+                class="block px-4 py-2 font-body text-[#aeb8be] no-underline hover:bg-white/[0.08] hover:text-white"
               >
                 {item.label}
               </a>

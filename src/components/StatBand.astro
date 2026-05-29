@@ -1,0 +1,70 @@
+---
+interface Stat {
+  value: string; // numeric portion, e.g. "60,000"
+  unit?: string; // small accent suffix, e.g. "t"
+  label: string;
+}
+interface Props {
+  stats: Stat[];
+}
+const { stats } = Astro.props;
+---
+
+<div class="statband">
+  {
+    stats.map((s) => (
+      <div class="stat">
+        <div class="n">
+          {s.value}
+          {s.unit && <small>{s.unit}</small>}
+        </div>
+        <div class="l">{s.label}</div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .statband {
+    margin-top: 54px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line-dark);
+  }
+  .stat {
+    padding: 26px 30px 30px;
+    border-right: 1px solid var(--line-dark);
+    position: relative;
+  }
+  .stat:last-child {
+    border-right: 0;
+  }
+  .n {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .n small {
+    color: var(--brand-bright);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-left: 2px;
+  }
+  .l {
+    font-size: 0.86rem;
+    color: #93a0a7;
+    margin-top: 9px;
+  }
+  @media (max-width: 880px) {
+    .statband {
+      grid-template-columns: 1fr;
+    }
+    .stat {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-dark);
+    }
+  }
+</style>

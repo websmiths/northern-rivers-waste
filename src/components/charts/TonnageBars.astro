@@ -58,7 +58,7 @@ const fmt = (v: number) => (v / 1000).toLocaleString() + 'k';
           <rect x={bx} y={by} width={barW} height={bh} fill="none" stroke="var(--moss)" stroke-width="1.5" rx="2"></rect>
         )}
         <text x={cx} y={by - 8} text-anchor="middle" font-size="13" font-weight="500" font-family="'IBM Plex Mono', monospace" fill="var(--basalt)">{fmt(b.value)}{b.kind === 'approx' ? '*' : ''}</text>
-        <text x={cx} y={H - padB + 22} text-anchor="middle" font-size="13" font-family="'IBM Plex Sans', sans-serif" fill="var(--ink)">{b.label}</text>
+        <text x={cx} y={H - padB + 22} text-anchor="middle" font-size="13" font-family="'Inter', sans-serif" fill="var(--ink)">{b.label}</text>
         <text x={cx} y={H - padB + 38} text-anchor="middle" font-size="10.5" font-family="'IBM Plex Mono', monospace" fill="var(--ink)" opacity="0.55">{b.sub}</text>
       </g>
     );

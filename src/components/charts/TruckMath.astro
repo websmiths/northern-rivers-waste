@@ -42,7 +42,7 @@ const placed = segs.map((s) => {
     <text x="520" y="48" font-size="22" fill="var(--ochre)">≈</text>
     <text x="548" y="48" font-size="22" font-weight="600" fill="var(--ochre-text)">13 loads</text>
   </g>
-  <g font-family="'IBM Plex Sans', sans-serif" fill="var(--ink)" opacity="0.7" font-size="12">
+  <g font-family="'Inter', sans-serif" fill="var(--ink)" opacity="0.7" font-size="12">
     <text x="40" y="68">per year</text>
     <text x="196" y="68">operating</text>
     <text x="356" y="68">avg payload</text>
@@ -51,7 +51,7 @@ const placed = segs.map((s) => {
 
   <line x1="40" y1="92" x2="680" y2="92" stroke="var(--rule)"></line>
 
-  <text x="40" y="128" font-family="'IBM Plex Sans', sans-serif" font-size="15" fill="var(--basalt)" font-weight="500">But the gate sees more than inbound loads:</text>
+  <text x="40" y="128" font-family="'Inter', sans-serif" font-size="15" fill="var(--basalt)" font-weight="500">But the gate sees more than inbound loads:</text>
 
   <!-- stacked bar -->
   <text x={barX} y={barY - 14} font-family="'IBM Plex Mono', monospace" font-size="12" fill="var(--ink)" opacity="0.7">Illustrative daily vehicle movements at the gate</text>
@@ -62,7 +62,7 @@ const placed = segs.map((s) => {
   <text x={barX + barW} y={barY - 14} text-anchor="end" font-family="'IBM Plex Mono', monospace" font-size="13" font-weight="600" fill="var(--ochre-text)">≈ {total} movements/day</text>
 
   <!-- legend -->
-  <g font-family="'IBM Plex Sans', sans-serif" font-size="12.5" fill="var(--ink)">
+  <g font-family="'Inter', sans-serif" font-size="12.5" fill="var(--ink)">
     {placed.map((p, i) => {
       const col = i % 2;
       const row = Math.floor(i / 2);

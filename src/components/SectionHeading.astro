@@ -1,0 +1,50 @@
+---
+interface Props {
+  kicker?: string;
+  id?: string;
+  as?: 'h2' | 'h3';
+}
+const { kicker, id, as = 'h2' } = Astro.props;
+const Tag = as;
+---
+
+<div class="sec">
+  {kicker && <span class="kicker">{kicker}</span>}
+  <Tag id={id} class="sec-h"><slot /></Tag>
+  <div class="rule" aria-hidden="true"></div>
+</div>
+
+<style>
+  .sec {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 72px 0 28px;
+  }
+  .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--brand);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    white-space: nowrap;
+  }
+  .sec-h {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+    margin: 0;
+  }
+  .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  @media (max-width: 600px) {
+    .sec-h {
+      white-space: normal;
+    }
+  }
+</style>

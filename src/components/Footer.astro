@@ -8,18 +8,18 @@ const lastUpdated = new Date().toLocaleDateString('en-AU', {
 });
 ---
 
-<footer class="mt-24 border-t border-rule bg-basalt text-paper">
+<footer class="mt-24 border-t border-line-dark bg-ink text-paper">
   <div class="mx-auto max-w-6xl px-5 py-12">
     <div class="grid gap-10 sm:grid-cols-[1fr_auto]">
       <div class="max-w-md">
-        <p class="font-display text-2xl font-semibold text-paper">{SITE.name}</p>
+        <p class="font-display text-2xl font-extrabold uppercase tracking-[0.02em] text-paper">{SITE.name}</p>
         <p class="mt-3 font-body text-[0.95rem] leading-relaxed text-paper/80">
           {SITE.tagline} An independent, evidence-based information resource —
           not a petition or campaign platform.
         </p>
         <p class="mt-4 font-mono text-xs text-paper/70">
           Corrections &amp; sources:
-          <a href={`mailto:${SITE.contactEmail}`} class="text-ochre-bright underline"
+          <a href={`mailto:${SITE.contactEmail}`} class="text-brand-bright underline"
             >{SITE.contactEmail}</a
           >
         </p>
@@ -35,7 +35,7 @@ const lastUpdated = new Date().toLocaleDateString('en-AU', {
               <li>
                 <a
                   href={withBase(item.href)}
-                  class="font-body text-[0.95rem] text-paper no-underline hover:text-ochre-bright"
+                  class="font-body text-[0.95rem] text-paper no-underline transition-colors hover:text-brand-bright"
                 >
                   {item.label}
                 </a>

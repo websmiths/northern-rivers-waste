@@ -1,76 +1,119 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Eyebrow from '../components/Eyebrow.astro';
-import Standfirst from '../components/Standfirst.astro';
-import CardLink from '../components/CardLink.astro';
+import StatBand from '../components/StatBand.astro';
+import ClaimCard from '../components/ClaimCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import PullQuote from '../components/PullQuote.astro';
 import { SITE, withBase } from '../site';
 
-const cards = [
+const stats = [
+  { value: '50', unit: 'yr', label: 'Operational commitment' },
+  { value: '60,000', unit: 't', label: 'Residual waste per year' },
+  { value: '7', label: 'Councils potentially served' },
+];
+
+const claims = [
   {
-    href: '/proposal',
     index: '01',
-    title: 'The proposal',
-    summary:
-      'A plain-language account of what Lismore City Council is actually investigating — site, scale, timeline and stated safeguards.',
+    verdict: 'Reduces, not eliminates',
+    claim: '“Modern engineering eliminates the risk.”',
+    score: 2,
+    finding:
+      'Liners and strict rules lower risk — they don’t zero it. Protection depends on temperature, seam quality, and decades of upkeep.',
+    href: '/critique#misleading',
   },
   {
-    href: '/critique',
     index: '02',
-    title: 'The critique',
-    summary:
-      'What is accurate, what is spin, what is misleading by implication, and the major questions the public case has left out.',
+    verdict: 'Wrong yardstick',
+    claim: '“60,000 tonnes a year is modest.”',
+    score: 1,
+    finding:
+      'Tonnage isn’t the test. A modest load in a high-rainfall, flood-influenced catchment can carry more risk than a larger one on a dry site.',
+    href: '/critique#spin',
   },
   {
-    href: '/alternatives',
     index: '03',
-    title: 'Alternatives',
-    summary:
-      'Three credible approaches the public debate has barely canvassed — built around existing licensed facilities, not a new greenfield hole.',
+    verdict: 'Overstated',
+    claim: '“The opposition is just hype.”',
+    score: 2,
+    finding:
+      'Neither 400 trucks nor zero — roughly 30–50 movements a day. A real local change, worth assessing rather than dismissing.',
+    href: '/critique#spin',
+  },
+];
+
+const deepCards = [
+  {
+    k: '01',
+    title: 'The proposal',
+    desc: 'What’s actually being proposed.',
+    href: '/proposal',
   },
   {
-    href: '/numbers',
-    index: '04',
+    k: '02',
+    title: 'The critique',
+    desc: 'Accurate, spin, and missing.',
+    href: '/critique',
+  },
+  {
+    k: '03',
+    title: 'Alternatives',
+    desc: 'Three other approaches.',
+    href: '/alternatives',
+  },
+  {
+    k: '04',
     title: 'The numbers',
-    summary:
-      'Tonnage, truck movements, 50-year cumulative deposit, the waste hierarchy, and what liner service life actually depends on.',
+    desc: 'Five data visualisations.',
+    href: '/numbers',
   },
 ];
 ---
 
 <BaseLayout
-  title="Before we dig the hole, we should ask the right question."
+  title="Before we dig the hole, ask the right question."
   description="An evidence-based look at the proposed 50-year regional landfill at Blakebrook Quarry: the proposal, the critique, the alternatives, and the numbers."
 >
-  <!-- Magazine-cover hero -->
-  <section class="mx-auto max-w-5xl px-5 pt-16 sm:pt-24">
-    <Eyebrow>A regional landfill at Blakebrook Quarry</Eyebrow>
-    <h1
-      class="mt-5 max-w-4xl font-display text-[2.75rem] font-semibold leading-[1.02] text-basalt sm:text-7xl"
-    >
-      Before we dig the hole, we should ask the right question.
-    </h1>
-    <div class="mt-8 max-w-2xl">
-      <Standfirst>
-        Lismore City Council is investigating Blakebrook Quarry as the site for
-        a 50-year regional landfill serving up to seven Northern Rivers
-        councils. The case for the site rests on three claims: that modern
-        landfill engineering eliminates risk, that 60,000 tonnes per year is
-        modest, and that opposition is &ldquo;hype.&rdquo; This site examines
-        each of those claims, proposes alternative approaches, and asks whether
-        a 50-year landfill commitment is the right answer to the waste problem
-        at all.
-      </Standfirst>
+  <!-- Dark gradient hero -->
+  <section class="hero">
+    <div class="mx-auto max-w-6xl px-7 hero-inner">
+      <p class="eyebrow">A regional landfill at Blakebrook Quarry</p>
+      <h1 class="hero-h1">
+        Before we dig the hole, ask the <span class="hl">right question.</span>
+      </h1>
+      <p class="stand">
+        Lismore City Council is investigating Blakebrook Quarry for a 50-year
+        regional landfill serving up to seven Northern Rivers councils. The
+        public case rests on three claims &mdash; we weigh each on the evidence.
+      </p>
+      <StatBand stats={stats} />
     </div>
   </section>
 
-  <!-- CTA cards -->
-  <section class="mx-auto mt-14 max-w-5xl px-5">
-    <h2 class="sr-only">Explore the analysis</h2>
-    <div class="grid gap-4 sm:grid-cols-2">
-      {cards.map((c) => <CardLink {...c} />)}
+  <div class="mx-auto max-w-6xl px-7">
+    <SectionHeading kicker="The case">Three claims, weighed</SectionHeading>
+    <div class="claims-grid">
+      {claims.map((c) => <ClaimCard {...c} />)}
     </div>
-  </section>
+
+    <SectionHeading kicker="Read on">Go deeper</SectionHeading>
+    <div class="deep-grid">
+      {
+        deepCards.map((c) => (
+          <a class="dcard" href={withBase(c.href)}>
+            <div>
+              <div class="k">{c.k}</div>
+              <div class="t">{c.title}</div>
+              <div class="d">{c.desc}</div>
+            </div>
+            <div class="go" aria-hidden="true">
+              →
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
 
   <!-- What the council has said -->
   <PullQuote cite="Mayor Steve Krieg, Lismore City Council, September 2025">
@@ -79,12 +122,14 @@ const cards = [
   </PullQuote>
 
   <!-- Editorial position -->
-  <section class="mx-auto max-w-prose px-5">
-    <Eyebrow>How we approach this</Eyebrow>
-    <div class="prose-body mt-4">
+  <section class="mx-auto max-w-prose px-7 pb-4">
+    <SectionHeading kicker="How we approach this" as="h2">
+      Independent, not a campaign
+    </SectionHeading>
+    <div class="prose-body">
       <p>
         This is an independent information resource, not a petition platform.
-        The aim is that you leave better informed — not simply more angry.
+        The aim is that you leave better informed &mdash; not simply more angry.
         Where the council&rsquo;s reasoning is sound, we say so; where the
         public case is thin, we show why.
       </p>
@@ -92,9 +137,9 @@ const cards = [
       <ul>
         <li>Every contested factual claim carries a source.</li>
         <li>
-          We separate fact from opinion in plain voice — &ldquo;the council
-          argues,&rdquo; &ldquo;the evidence suggests,&rdquo; &ldquo;in our
-          view.&rdquo;
+          We separate fact from opinion in plain voice &mdash; &ldquo;the
+          council argues,&rdquo; &ldquo;the evidence suggests,&rdquo; &ldquo;in
+          our view.&rdquo;
         </li>
         <li>
           We critique the process and the framing, not the integrity of any
@@ -112,3 +157,114 @@ const cards = [
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    background: radial-gradient(
+      120% 140% at 80% -10%,
+      #143240 0%,
+      var(--ink-2) 38%,
+      var(--ink) 100%
+    );
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--line-dark);
+  }
+  .hero-inner {
+    padding-top: 78px;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--brand-bright);
+  }
+  .hero-h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.7rem, 1.6rem + 4.4vw, 5rem);
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    margin-top: 18px;
+    max-width: 15ch;
+    color: #fff;
+  }
+  .hero-h1 .hl {
+    color: var(--accent);
+  }
+  .stand {
+    margin-top: 24px;
+    max-width: 54ch;
+    font-size: 1.12rem;
+    color: #c5cdd2;
+  }
+
+  .claims-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .deep-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .dcard {
+    position: relative;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 14px;
+    padding: 24px 22px 22px;
+    text-decoration: none;
+    overflow: hidden;
+    min-height: 148px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s;
+  }
+  .dcard:hover {
+    transform: translateY(-4px);
+  }
+  .dcard .k {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--brand-bright);
+  }
+  .dcard .t {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+    margin-top: 4px;
+  }
+  .dcard .d {
+    font-size: 0.82rem;
+    color: #9aa6ad;
+    margin-top: 5px;
+  }
+  .dcard .go {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    color: var(--accent);
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 880px) {
+    .claims-grid,
+    .deep-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
